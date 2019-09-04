@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".roomActivity"></activity>
+        <activity android:name=".itemChecker"></activity>
+        <activity android:name=".roomActivity" />
         <activity android:name=".wardrobeActivity" />
         <activity android:name=".itemActivity" />
         <activity android:name=".MainActivity">
