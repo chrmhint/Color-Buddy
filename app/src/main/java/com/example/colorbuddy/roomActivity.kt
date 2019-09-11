@@ -8,64 +8,91 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import kotlinx.android.synthetic.main.activity_item.*
-import kotlinx.android.synthetic.main.activity_item.button
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_room.*
-import kotlinx.android.synthetic.main.activity_wardrobe.*
 
 class roomActivity : AppCompatActivity() {
-    private lateinit var roomsList: ListView
+
+    private lateinit var roomView: ListView
+    private lateinit var roomName: EditText
+    private lateinit var roomList: MutableList<Room>
+    private lateinit var ref: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
 
-        roomsList = findViewById(R.id.roomsListView)
-        var rooms = arrayOf("Bedroom","Living Room","Master Bathroom","Den","Dining Room","Kitchen", "Garage", "Patio")
-        val listItems = arrayOfNulls<String>(rooms.size)
-        for(i in 0 until rooms.size){
-            val room = rooms[i]
-            listItems[i] = room
-        }
-        val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,listItems)
-        roomsList.adapter = RoomListAdapter(this, rooms)
 
-        button.setOnClickListener{
+        ref = FirebaseDatabase.getInstance().getReference("Rooms")
+        roomView = findViewById(R.id.roomsListView)
+        roomName = findViewById(R.id.addRoomName)
+        roomList = mutableListOf()
+
+
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0!!.exists()){
+                    for(w in p0.children){
+                        val wardrobe = w.getValue(Room::class.java)
+                        roomList.add(wardrobe!!)
+                    }
+
+                    val adapter = RoomListAdapter(applicationContext, R.layout.row_wardrobe, roomList)
+                    roomView.adapter = adapter
+                }
+            }
+
+        })
+
+        backButton.setOnClickListener{
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
 
-    }
-    private class RoomListAdapter(context: Context, rooms: Array<String>): BaseAdapter() {
-
-        private val mContext: Context
-        private val mRooms: Array<String>
-
-        init{
-            this.mContext = context
-            this. mRooms = rooms
-        }
-        override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-
-            val roomLayoutInflater = LayoutInflater.from(mContext)
-            val room_row = roomLayoutInflater.inflate(R.layout.row_wardrobe, p2, false)
-            val roomName = room_row.findViewById<TextView>(R.id.wardrobeName)
-            roomName.text = mRooms[p0]
-            return room_row
-        }
-
-        override fun getItem(p0: Int): Any {
-            return ""
-        }
-
-        override fun getItemId(p0: Int): Long {
-            return p0.toLong()
-        }
-
-        override fun getCount(): Int {
-            return mRooms.size
+        addRoomButton.setOnClickListener{
+            addRoom()
         }
 
     }
 
+    private fun addRoom(){
+        val name = roomName.text.toString()
 
+        if(name.isEmpty()){
+            roomName.error = "Please enter the name of a room."
+            return
+        }
+
+        val ref = FirebaseDatabase.getInstance().getReference("Rooms")
+        val roomId = ref.push().key
+
+        val room = Room(roomId.toString(),name)
+
+        ref.child(roomId.toString()).setValue(room).addOnCompleteListener {
+            Toast.makeText(applicationContext, "Room saved successfully",Toast.LENGTH_LONG)
+        }
+    }
+
+    private class RoomListAdapter(context: Context, val layoutResId: Int, val roomList: List<Room>) : ArrayAdapter<Room>(context, layoutResId, roomList) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+            val view: View = layoutInflater.inflate(layoutResId,null)
+
+            val textViewName = view.findViewById<TextView>(R.id.rowName)
+
+            val room = roomList[position]
+
+            textViewName.text = room.name
+
+            return view
+        }
+    }
+
+    private class Room (val roomId: String, val name: String){
+        constructor(): this("","")
+    }
 }

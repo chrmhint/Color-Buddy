@@ -7,68 +7,92 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
-import androidx.core.view.get
-import androidx.core.view.size
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_item.*
-import kotlinx.android.synthetic.main.activity_item.button
+import android.widget.*
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_wardrobe.*
+import kotlinx.android.synthetic.main.activity_wardrobe.backButton
 
 class wardrobeActivity : AppCompatActivity() {
-    private lateinit var wardrobeList: ListView
+    private lateinit var wardrobeView: ListView
+    private lateinit var wardrobeName: EditText
+    private lateinit var wardrobeList: MutableList<Wardrobe>
+    private lateinit var ref: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wardrobe)
 
-        wardrobeList = findViewById(R.id.wardrobeListView)
-        val wardrobes: Array<String> = arrayOf("Fancy","School","Casual","Gym")
-        val listItems = arrayOfNulls<String>(wardrobes.size)
-        for(i in 0 until wardrobes.size){
-            val wardrobe = wardrobes[i]
-            listItems[i] = wardrobe
-        }
-        val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,listItems)
-        wardrobeList.adapter = WardrobeListAdapter(this, wardrobes)
+        ref = FirebaseDatabase.getInstance().getReference("Wardrobes")
+        wardrobeList = mutableListOf()
+        wardrobeView = findViewById(R.id.wardrobeListView)
+        wardrobeName = findViewById(R.id.rowName)
 
-        button.setOnClickListener{
+
+        ref.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0!!.exists()){
+                    for(w in p0.children){
+                        val wardrobe = w.getValue(Wardrobe::class.java)
+                        wardrobeList.add(wardrobe!!)
+                    }
+
+                    val adapter = WardrobeListAdapter(applicationContext, R.layout.row_wardrobe, wardrobeList)
+                    wardrobeView.adapter = adapter
+                }
+            }
+
+        })
+
+        backButton.setOnClickListener{
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
+
+        addWardrobeButton.setOnClickListener{
+            addWardrobe()
+        }
     }
 
-    private class WardrobeListAdapter(context: Context,wardrobes: Array<String>): BaseAdapter() {
+    private fun addWardrobe(){
+        val name = wardrobeName.text.toString()
 
-        private val mContext: Context
-        private val mWardrobes: Array<String>
-
-        init{
-            this.mContext = context
-            this. mWardrobes = wardrobes
-        }
-        override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-
-            val wardrobeLayoutInflater = LayoutInflater.from(mContext)
-            val wardrobe_row = wardrobeLayoutInflater.inflate(R.layout.row_wardrobe, p2, false)
-            val wardrobeName = wardrobe_row.findViewById<TextView>(R.id.wardrobeName)
-            wardrobeName.text = mWardrobes[p0]
-            return wardrobe_row
+        if(name.isEmpty()){
+            wardrobeName.error = "Please enter a wardrobe name"
+            return
         }
 
-        override fun getItem(p0: Int): Any {
-            return ""
+        val wardrobeId = ref.push().key
+
+        val room = Wardrobe(wardrobeId.toString(),name)
+
+        ref.child(wardrobeId.toString()).setValue(room).addOnCompleteListener {
+            Toast.makeText(applicationContext, "Wardrobe saved successfully",Toast.LENGTH_LONG)
         }
 
-        override fun getItemId(p0: Int): Long {
-            return p0.toLong()
+    }
+
+    private class WardrobeListAdapter(context: Context, val layoutResId: Int, val wardrobeList: List<Wardrobe>): ArrayAdapter<Wardrobe>(context,layoutResId,wardrobeList) {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+            val view: View = layoutInflater.inflate(layoutResId,null)
+
+            val textViewName = view.findViewById<TextView>(R.id.rowName)
+
+            val wardrobe = wardrobeList[position]
+
+            textViewName.text = wardrobe.name
+
+            return view
         }
 
-        override fun getCount(): Int {
-            return mWardrobes.size
-        }
 
+    }
+    private class Wardrobe(val wardrobeId: String, val name: String){
+        constructor(): this("","")
     }
 }

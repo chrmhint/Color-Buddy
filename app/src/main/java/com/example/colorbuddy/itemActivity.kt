@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_item.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class itemActivity : AppCompatActivity() {
 
@@ -12,7 +11,7 @@ class itemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item)
 
-        button.setOnClickListener{
+        backButton.setOnClickListener{
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
