@@ -4,25 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".wardrobeActivity">
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginBottom="57dp"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".WardrobeListActivity">
 
     <ListView
         android:id="@+id/wardrobeListView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/rowName"
+        android:layout_width="344dp"
+        android:layout_height="491dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,21 +22,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="85dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rowName"
+        app:layout_constraintStart_toStartOf="@+id/rowName"
         app:layout_constraintTop_toBottomOf="@+id/rowName" />
 
     <EditText
         android:id="@+id/rowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Wardrobe to add"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/backButton"
-        app:layout_constraintStart_toStartOf="@+id/backButton" />
+        app:layout_constraintEnd_toEndOf="@+id/wardrobeListView"
+        app:layout_constraintStart_toStartOf="@+id/wardrobeListView"
+        app:layout_constraintTop_toBottomOf="@+id/wardrobeListView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

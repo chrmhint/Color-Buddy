@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import android.widget.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_wardrobe.*
-import kotlinx.android.synthetic.main.activity_wardrobe.backButton
+import kotlinx.android.synthetic.main.group_row.*
 
-class wardrobeActivity : AppCompatActivity() {
+class WardrobeListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var wardrobeView: ListView
     private lateinit var wardrobeName: EditText
     private lateinit var wardrobeList: MutableList<Wardrobe>
@@ -35,26 +35,27 @@ class wardrobeActivity : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0!!.exists()){
+                    wardrobeList.clear()
                     for(w in p0.children){
                         val wardrobe = w.getValue(Wardrobe::class.java)
                         wardrobeList.add(wardrobe!!)
                     }
 
-                    val adapter = WardrobeListAdapter(applicationContext, R.layout.row_wardrobe, wardrobeList)
+                    val adapter = WardrobeListAdapter(applicationContext, R.layout.group_row, wardrobeList)
                     wardrobeView.adapter = adapter
                 }
             }
 
         })
 
-        backButton.setOnClickListener{
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-        }
-
         addWardrobeButton.setOnClickListener{
             addWardrobe()
         }
+
+    }
+
+    override fun onClick(view: View?) {
+
     }
 
     private fun addWardrobe(){
@@ -67,10 +68,10 @@ class wardrobeActivity : AppCompatActivity() {
 
         val wardrobeId = ref.push().key
 
-        val room = Wardrobe(wardrobeId.toString(),name)
+        val wardrobe = Wardrobe(wardrobeId.toString(),name)
 
-        ref.child(wardrobeId.toString()).setValue(room).addOnCompleteListener {
-            Toast.makeText(applicationContext, "Wardrobe saved successfully",Toast.LENGTH_LONG)
+        ref.child(wardrobeId.toString()).setValue(wardrobe).addOnCompleteListener {
+            Toast.makeText(applicationContext, "Wardrobe saved successfully",Toast.LENGTH_LONG).show()
         }
 
     }
@@ -80,9 +81,7 @@ class wardrobeActivity : AppCompatActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val layoutInflater: LayoutInflater = LayoutInflater.from(context)
             val view: View = layoutInflater.inflate(layoutResId,null)
-
-            val textViewName = view.findViewById<TextView>(R.id.rowName)
-
+            val textViewName = view.findViewById<TextView>(R.id.rowTextView)
             val wardrobe = wardrobeList[position]
 
             textViewName.text = wardrobe.name

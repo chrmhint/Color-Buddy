@@ -4,55 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".roomActivity">
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="17dp"
-        android:text="Back"
-        app:layout_constraintEnd_toStartOf="@+id/addRoomButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addRoomName" />
-
-    <ListView
-        android:id="@+id/roomsListView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="21dp"
-        app:layout_constraintBottom_toTopOf="@+id/addRoomName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".RoomListActivity">
 
     <Button
         android:id="@+id/addRoomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="24dp"
         android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="@+id/addRoomName"
+        app:layout_constraintStart_toStartOf="@+id/addRoomName"
         app:layout_constraintTop_toBottomOf="@+id/addRoomName" />
 
     <EditText
         android:id="@+id/addRoomName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Room to add"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/addRoomButton"
-        app:layout_constraintStart_toStartOf="@+id/backButton"
-        app:layout_constraintTop_toBottomOf="@+id/roomsListView" />
+        app:layout_constraintEnd_toEndOf="@+id/roomView"
+        app:layout_constraintStart_toStartOf="@+id/roomView"
+        app:layout_constraintTop_toBottomOf="@+id/roomView" />
+
+    <ListView
+        android:id="@+id/roomView"
+        android:layout_width="0dp"
+        android:layout_height="432dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

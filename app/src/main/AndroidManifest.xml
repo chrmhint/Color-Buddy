@@ -6,15 +6,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleInstance"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".addWardrobe"></activity>
-        <activity android:name=".addRoom" />
-        <activity android:name=".itemChecker" />
-        <activity android:name=".roomActivity" />
-        <activity android:name=".wardrobeActivity" />
-        <activity android:name=".itemActivity" />
+        <activity android:name=".clothesActivity"></activity>
+        <activity android:name=".ItemChecker" />
+        <activity android:name=".RoomListActivity"
+            android:label="Rooms"/>
+        <activity android:name=".WardrobeListActivity"
+            android:label="Wardrobes"/>
+        <activity android:name=".ItemActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

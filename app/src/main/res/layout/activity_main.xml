@@ -10,30 +10,30 @@
         android:id="@+id/itemButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="21dp"
+        android:layout_marginEnd="8dp"
         android:text="Item"
-        app:layout_constraintBottom_toTopOf="@+id/wardrobeButton"
-        app:layout_constraintStart_toStartOf="@+id/wardrobeButton" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/wardrobeButton"
+        app:layout_constraintEnd_toStartOf="@+id/wardrobeButton" />
 
     <Button
         android:id="@+id/wardrobeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="291dp"
-        android:text="Wardrobe"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Wardrobes"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/roomsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginStart="8dp"
         android:text="Rooms"
-        app:layout_constraintStart_toStartOf="@+id/wardrobeButton"
-        app:layout_constraintTop_toBottomOf="@+id/wardrobeButton" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/wardrobeButton"
+        app:layout_constraintStart_toEndOf="@+id/wardrobeButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
