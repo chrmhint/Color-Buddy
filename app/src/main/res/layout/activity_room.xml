@@ -20,18 +20,20 @@
         android:id="@+id/addRoomName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Room to add"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/roomView"
-        app:layout_constraintStart_toStartOf="@+id/roomView"
-        app:layout_constraintTop_toBottomOf="@+id/roomView" />
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView_room"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_room" />
 
-    <ListView
-        android:id="@+id/roomView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_room"
         android:layout_width="0dp"
-        android:layout_height="432dp"
+        android:layout_height="440dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
