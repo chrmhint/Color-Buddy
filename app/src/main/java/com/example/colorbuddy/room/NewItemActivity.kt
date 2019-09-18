@@ -56,9 +56,7 @@ class NewItemActivity : AppCompatActivity() {
 
         ref.child(itemId).setValue(item)
 
-        val intent = Intent(this, RoomItemsActivity::class.java)
-        intent.putExtra(EXTRA_ROOM_NAME,roomName)
-        startActivity(intent)
+        finish()
 
     }
 }

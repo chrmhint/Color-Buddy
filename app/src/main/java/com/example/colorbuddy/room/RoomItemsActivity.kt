@@ -71,7 +71,7 @@ class RoomItemsActivity : AppCompatActivity() {
         btnAddItem.setOnClickListener{
             val intent = Intent(this, NewItemActivity::class.java)
             intent.putExtra(EXTRA_ROOM_NAME, roomName)
-            startActivity(intent)
+            startActivityForResult(intent,1)
         }
 
 

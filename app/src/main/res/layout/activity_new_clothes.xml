@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Clothin Secondary Color"
+        android:hint="Clothing Secondary Color"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/clothesPrimary"
         app:layout_constraintHorizontal_bias="0.0"

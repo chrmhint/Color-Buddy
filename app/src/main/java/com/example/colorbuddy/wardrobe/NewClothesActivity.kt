@@ -46,9 +46,7 @@ class NewClothesActivity : AppCompatActivity() {
 
         ref.child(clothesId).setValue(clothes)
 
-        val intent = Intent(this,WardrobeItemsActivity::class.java)
-        intent.putExtra("EXTRA_WARDROBE_NAME", wardrobeName)
-        startActivity(intent)
+        finish()
 
     }
 }

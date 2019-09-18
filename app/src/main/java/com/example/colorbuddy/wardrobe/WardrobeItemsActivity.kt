@@ -71,7 +71,7 @@ class WardrobeItemsActivity : AppCompatActivity() {
         btnAddClothes.setOnClickListener{
             val intent = Intent(this, NewClothesActivity::class.java)
             intent.putExtra(EXTRA_WARDROBE_NAME, wardrobeName)
-            startActivity(intent)
+            startActivityForResult(intent,1)
         }
 
 
