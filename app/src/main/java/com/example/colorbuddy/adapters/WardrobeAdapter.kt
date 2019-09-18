@@ -1,10 +1,14 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.R
+import com.example.colorbuddy.room.RoomItemsActivity
+import com.example.colorbuddy.classes.Wardrobe
+import com.example.colorbuddy.wardrobe.WardrobeItemsActivity
 import kotlinx.android.synthetic.main.group_row.view.*
 
 const val EXTRA_WARDROBE_NAME = "EXTRA_WARDROBE_NAME"
@@ -34,7 +38,7 @@ class WardrobeViewHolder(val view: View): RecyclerView.ViewHolder(view){
 
     init {
         view.btnRow.setOnClickListener{
-            val intent = Intent(view.context, RoomItemsActivity::class.java)
+            val intent = Intent(view.context, WardrobeItemsActivity::class.java)
             intent.putExtra(EXTRA_WARDROBE_NAME, view.rowTitle.text)
             view.context.startActivity(intent)
         }

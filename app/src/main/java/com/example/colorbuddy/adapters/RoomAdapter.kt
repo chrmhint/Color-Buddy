@@ -1,14 +1,14 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.adapters
 
 import android.content.Intent
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DatabaseReference
+import com.example.colorbuddy.R
+import com.example.colorbuddy.classes.Room
+import com.example.colorbuddy.room.RoomItemsActivity
 import kotlinx.android.synthetic.main.group_row.view.*
-import com.google.firebase.database.*
 
 const val EXTRA_ROOM_NAME = "EXTRA_ROOM_NAME"
 const val EXTRA_ROOM_ID = "EXTRA_ROOM_ID"

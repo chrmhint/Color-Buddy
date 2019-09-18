@@ -1,9 +1,8 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.room
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_item.*
+import com.example.colorbuddy.R
 
 class ItemActivity : AppCompatActivity() {
 

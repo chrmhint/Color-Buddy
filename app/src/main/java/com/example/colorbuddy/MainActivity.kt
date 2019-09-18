@@ -3,8 +3,10 @@ package com.example.colorbuddy
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
+import com.example.colorbuddy.room.ItemActivity
+import com.example.colorbuddy.room.RoomListActivity
+import com.example.colorbuddy.wardrobe.WardrobeListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
 
@@ -23,7 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         val intent = when (view.id){
-            R.id.wardrobeButton -> Intent(this,WardrobeListActivity::class.java)
+            R.id.wardrobeButton -> Intent(this,
+                WardrobeListActivity::class.java)
             R.id.roomsButton -> Intent(this, RoomListActivity::class.java)
             R.id.itemButton -> Intent(this, ItemActivity::class.java)
             else -> throw IllegalArgumentException("Undefined Button Pressed")

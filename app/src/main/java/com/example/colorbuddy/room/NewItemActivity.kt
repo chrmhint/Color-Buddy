@@ -1,9 +1,11 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.room
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.widget.Toast
+import com.example.colorbuddy.R
+import com.example.colorbuddy.adapters.EXTRA_ROOM_NAME
+import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_new_item.*
@@ -43,9 +45,20 @@ class NewItemActivity : AppCompatActivity() {
         itemSec = itemSecondary.text.toString()
         ref = FirebaseDatabase.getInstance().getReference("Items")
         itemId = ref.push().key!!
-        val item = Item(roomName,itemId, itemName, itemDesc,itemPri, itemSec)
+        val item = Item(
+            roomName,
+            itemId,
+            itemName,
+            itemDesc,
+            itemPri,
+            itemSec
+        )
 
         ref.child(itemId).setValue(item)
+
+        val intent = Intent(this, RoomItemsActivity::class.java)
+        intent.putExtra(EXTRA_ROOM_NAME,roomName)
+        startActivity(intent)
 
     }
 }

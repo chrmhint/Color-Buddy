@@ -1,14 +1,13 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.wardrobe
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.R
+import com.example.colorbuddy.adapters.WardrobeAdapter
+import com.example.colorbuddy.classes.Wardrobe
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_wardrobe.*
 
@@ -42,7 +41,8 @@ class WardrobeListActivity : AppCompatActivity() {
                     }
 
                     wardrobeView.layoutManager = LinearLayoutManager(applicationContext)
-                    wardrobeView.adapter = WardrobeAdapter(wardrobeList)
+                    wardrobeView.adapter =
+                        WardrobeAdapter(wardrobeList)
                 }
             }
 

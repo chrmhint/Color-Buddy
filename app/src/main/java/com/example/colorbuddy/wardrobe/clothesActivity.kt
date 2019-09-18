@@ -1,7 +1,8 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.wardrobe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.colorbuddy.R
 
 class clothesActivity : AppCompatActivity() {
 

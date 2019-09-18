@@ -4,56 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".room.NewItemActivity">
+    tools:context=".wardrobe.NewClothesActivity">
 
     <EditText
-        android:id="@+id/itemType"
+        android:id="@+id/clothesName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Item Type"
+        android:hint="Clothing Type"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/itemDescription"
+        android:id="@+id/clothesDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Item Description"
+        android:hint="Clothing Description"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemType"
-        app:layout_constraintStart_toStartOf="@+id/itemType"
-        app:layout_constraintTop_toBottomOf="@+id/itemType" />
+        app:layout_constraintEnd_toEndOf="@id/clothesName"
+        app:layout_constraintStart_toStartOf="@id/clothesName"
+        app:layout_constraintTop_toBottomOf="@id/clothesName" />
 
     <EditText
-        android:id="@+id/itemPrimary"
+        android:id="@+id/clothesPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Item Primary Color"
+        android:hint="Clothing Primary Color"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemDescription"
-        app:layout_constraintStart_toStartOf="@+id/itemDescription"
-        app:layout_constraintTop_toBottomOf="@+id/itemDescription" />
+        app:layout_constraintEnd_toEndOf="@+id/clothesDescription"
+        app:layout_constraintStart_toStartOf="@+id/clothesDescription"
+        app:layout_constraintTop_toBottomOf="@+id/clothesDescription" />
 
     <EditText
-        android:id="@+id/itemSecondary"
+        android:id="@+id/clothesSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Item Secondary Color"
+        android:hint="Clothin Secondary Color"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/clothesPrimary"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/itemPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/itemPrimary" />
+        app:layout_constraintStart_toStartOf="@+id/clothesPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/clothesPrimary" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -61,19 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/roomInput"
-        app:layout_constraintStart_toStartOf="@+id/roomInput"
-        app:layout_constraintTop_toBottomOf="@+id/roomInput" />
+        app:layout_constraintEnd_toEndOf="@+id/clothesSecondary"
+        app:layout_constraintStart_toStartOf="@+id/clothesSecondary"
+        app:layout_constraintTop_toBottomOf="@+id/clothesSecondary" />
 
-    <EditText
-        android:id="@+id/roomInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Room"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemSecondary"
-        app:layout_constraintStart_toStartOf="@+id/itemSecondary"
-        app:layout_constraintTop_toBottomOf="@+id/itemSecondary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

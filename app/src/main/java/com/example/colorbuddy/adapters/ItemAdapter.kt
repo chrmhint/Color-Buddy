@@ -1,10 +1,11 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DatabaseReference
+import com.example.colorbuddy.classes.Item
+import com.example.colorbuddy.R
 import kotlinx.android.synthetic.main.item_row.view.*
 
 class ItemAdapter(val itemList: MutableList<Item>): RecyclerView.Adapter<ItemViewHolder>() {

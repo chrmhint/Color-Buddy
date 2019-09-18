@@ -1,14 +1,13 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.room
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.R
+import com.example.colorbuddy.adapters.RoomAdapter
+import com.example.colorbuddy.classes.Room
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_room.*
 
@@ -71,7 +70,7 @@ class RoomListActivity : AppCompatActivity() {
         //get reference from database
         val ref = FirebaseDatabase.getInstance().getReference("Rooms")
         val roomId = ref.push().key
-        val room = Room(roomId.toString(),name)
+        val room = Room(roomId.toString(), name)
 
         ref.child(roomId.toString()).setValue(room).addOnCompleteListener {
             Toast.makeText(applicationContext, "Room saved successfully",Toast.LENGTH_LONG).show()

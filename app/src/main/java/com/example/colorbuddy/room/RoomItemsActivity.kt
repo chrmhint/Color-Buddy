@@ -1,12 +1,15 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.room
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.R
+import com.example.colorbuddy.adapters.EXTRA_ROOM_NAME
+import com.example.colorbuddy.adapters.ItemAdapter
+import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_room_items.*
 
@@ -30,7 +33,7 @@ class RoomItemsActivity : AppCompatActivity() {
 
         ref = FirebaseDatabase.getInstance().getReference("Items")
         items = mutableListOf()
-        itemsView = findViewById(R.id.recyclerView_items)
+        itemsView = findViewById(R.id.recylcerView_items)
         roomName = intent.getStringExtra("EXTRA_ROOM_NAME")
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".room.RoomItemsActivity">
+    tools:context=".wardrobe.WardrobeItemsActivity">
 
     <LinearLayout
         android:id="@+id/paletteView"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnAddItem"
+        android:id="@+id/btnAddClothes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -50,13 +50,13 @@
         app:layout_constraintStart_toStartOf="@+id/paletteView" />
 
     <Button
-        android:id="@+id/btnDeleteItem"
+        android:id="@+id/btnDeleteClothes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete"
-        app:layout_constraintEnd_toEndOf="@id/recylcerView_items"
-        app:layout_constraintStart_toStartOf="@id/recylcerView_items"
-        app:layout_constraintTop_toTopOf="@id/btnAddItem" />
+        app:layout_constraintEnd_toEndOf="@id/recylcerView_clothes"
+        app:layout_constraintStart_toStartOf="@id/recylcerView_clothes"
+        app:layout_constraintTop_toTopOf="@id/btnAddClothes" />
 
     <TextView
         android:id="@+id/textView16"
@@ -74,13 +74,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Items"
-        app:layout_constraintEnd_toEndOf="@id/recylcerView_items"
-        app:layout_constraintStart_toStartOf="@id/recylcerView_items"
+        android:text="Clothes"
+        app:layout_constraintEnd_toEndOf="@id/recylcerView_clothes"
+        app:layout_constraintStart_toStartOf="@id/recylcerView_clothes"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recylcerView_items"
+        android:id="@+id/recylcerView_clothes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
