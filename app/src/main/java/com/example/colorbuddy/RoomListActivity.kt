@@ -71,10 +71,7 @@ class RoomListActivity : AppCompatActivity() {
         //get reference from database
         val ref = FirebaseDatabase.getInstance().getReference("Rooms")
         val roomId = ref.push().key
-        val itemId = ref.push().key
-        val item = Item(itemId!!,"","","","")
-        val items = mutableListOf(item)
-        val room = Room(roomId.toString(),name,items)
+        val room = Room(roomId.toString(),name)
 
         ref.child(roomId.toString()).setValue(room).addOnCompleteListener {
             Toast.makeText(applicationContext, "Room saved successfully",Toast.LENGTH_LONG).show()

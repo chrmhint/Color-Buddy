@@ -10,11 +10,14 @@ import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.group_row.view.*
 import com.google.firebase.database.*
 
-
+const val EXTRA_ROOM_NAME = "EXTRA_ROOM_NAME"
+const val EXTRA_ROOM_ID = "EXTRA_ROOM_ID"
 
 class RoomAdapter(roomList: MutableList<Room>): RecyclerView.Adapter<RoomViewHolder>(){
 
     private val mRooms = roomList
+
+
 
     //number of Items
     override fun getItemCount(): Int {
@@ -39,6 +42,7 @@ class RoomViewHolder(val view: View): RecyclerView.ViewHolder(view){
     init {
         view.btnRow.setOnClickListener{
             val intent = Intent(view.context, RoomItemsActivity::class.java)
+            intent.putExtra(EXTRA_ROOM_NAME, view.rowTitle.text)
             view.context.startActivity(intent)
         }
     }

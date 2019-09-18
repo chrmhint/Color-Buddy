@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.group_row.view.*
+import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.item_row.view.*
 
 class ItemAdapter(val itemList: MutableList<Item>): RecyclerView.Adapter<ItemViewHolder>() {
@@ -23,7 +23,7 @@ class ItemAdapter(val itemList: MutableList<Item>): RecyclerView.Adapter<ItemVie
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = mItems[position]
-        holder.view.itemName.text = item.itemName
+        holder.view.itemType.text = item.itemName
         holder.view.itemDescription.text = item.itemDescript
 
     }
