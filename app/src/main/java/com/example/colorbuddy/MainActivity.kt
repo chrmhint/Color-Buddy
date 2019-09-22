@@ -9,9 +9,22 @@ import com.example.colorbuddy.room.RoomListActivity
 import com.example.colorbuddy.wardrobe.WardrobeListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
+import com.google.firebase.auth.FirebaseAuth
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.google.firebase.auth.FirebaseUser
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
+
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val REQUEST_IMAGE_CAPTURE = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
