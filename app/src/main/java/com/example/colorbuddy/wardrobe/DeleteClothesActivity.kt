@@ -4,18 +4,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.ClothesAdapter
+import com.example.colorbuddy.adapters.DeleteClothesAdapter
 import com.example.colorbuddy.adapters.EXTRA_WARDROBE_NAME
-import com.example.colorbuddy.adapters.ItemAdapter
 import com.example.colorbuddy.classes.Clothes
-import com.example.colorbuddy.room.NewItemActivity
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_wardrobe_items.*
+import kotlinx.android.synthetic.main.activity_delete_clothes.*
+import kotlinx.android.synthetic.main.item_row_delete.view.*
 
-class WardrobeItemsActivity : AppCompatActivity() {
+class DeleteClothesActivity : AppCompatActivity() {
 
     private lateinit var paletteView: LinearLayout
     private lateinit var clothesView: RecyclerView
@@ -29,7 +30,7 @@ class WardrobeItemsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_wardrobe_items)
+        setContentView(R.layout.activity_delete_clothes)
 
         ref = FirebaseDatabase.getInstance().getReference("Clothes")
         clothes = mutableListOf()
@@ -57,30 +58,40 @@ class WardrobeItemsActivity : AppCompatActivity() {
                     }
 
                     clothesView.layoutManager = LinearLayoutManager(applicationContext)
-                    clothesView.adapter = ClothesAdapter(clothes)
+                    clothesView.adapter = DeleteClothesAdapter(clothes)
                 }
             }
         })
 
 
 
+        btnDeleteClothes.setOnClickListener{
 
+            deleteClothes()
 
-
-
-        btnAddClothes.setOnClickListener{
-            val intent = Intent(this, NewClothesActivity::class.java)
-            intent.putExtra(EXTRA_WARDROBE_NAME, wardrobeName)
-            startActivityForResult(intent,1)
         }
 
 
-        btnDelete.setOnClickListener{
-            val intent = Intent(this,DeleteClothesActivity::class.java)
-            intent.putExtra(EXTRA_WARDROBE_NAME, wardrobeName)
-            startActivityForResult(intent,1)
 
+
+
+
+
+    }
+
+    fun deleteClothes(){
+        val clothesToDelete = mutableListOf<Clothes>()
+        var i = 0
+        for (c in clothesView.children){
+            if(c.checkBox.isChecked){
+                clothesToDelete.add(clothes[i])
+            }
+            i++
+        }
+
+        for(c in clothesToDelete){
+            val dref = FirebaseDatabase.getInstance().getReference("Clothes").child(c.clothesId)
+            dref.removeValue()
         }
     }
 }
-

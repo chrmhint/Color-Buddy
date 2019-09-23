@@ -10,11 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".wardrobe.NewClothesActivity"></activity>
+        <activity android:name=".wardrobe.DeleteClothesActivity"></activity>
+        <activity android:name=".wardrobe.NewClothesActivity" />
         <activity android:name=".wardrobe.WardrobeItemsActivity" />
         <activity android:name=".room.NewItemActivity" />
         <activity android:name=".room.RoomItemsActivity" />
-        <activity android:name=".wardrobe.clothesActivity" />
         <activity android:name=".ItemChecker" />
         <activity
             android:name=".room.RoomListActivity"

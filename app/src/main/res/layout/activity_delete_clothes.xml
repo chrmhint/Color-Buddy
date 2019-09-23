@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".wardrobe.WardrobeItemsActivity">
+    tools:context=".wardrobe.DeleteClothesActivity">
 
     <LinearLayout
-        android:id="@+id/paletteView"
+        android:id="@+id/deletePaletteView"
         android:layout_width="100dp"
         android:layout_height="408dp"
         android:layout_marginStart="8dp"
@@ -40,23 +40,23 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnAddClothes"
+        android:id="@+id/btnDeleteRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Add"
+        android:text="DELETE ROOM"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/paletteView"
-        app:layout_constraintStart_toStartOf="@+id/paletteView" />
+        app:layout_constraintEnd_toEndOf="@+id/deletePaletteView"
+        app:layout_constraintStart_toStartOf="@+id/deletePaletteView" />
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnDeleteClothes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="Delete Clothes"
         app:layout_constraintEnd_toEndOf="@id/recylcerView_clothes"
         app:layout_constraintStart_toStartOf="@id/recylcerView_clothes"
-        app:layout_constraintTop_toTopOf="@id/btnAddClothes" />
+        app:layout_constraintTop_toTopOf="@id/btnDeleteRoom" />
 
     <TextView
         android:id="@+id/textView16"
@@ -64,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Palette"
-        app:layout_constraintEnd_toEndOf="@+id/paletteView"
-        app:layout_constraintStart_toStartOf="@+id/paletteView"
+        app:layout_constraintEnd_toEndOf="@+id/deletePaletteView"
+        app:layout_constraintStart_toStartOf="@+id/deletePaletteView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -86,9 +86,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/paletteView"
+        app:layout_constraintBottom_toBottomOf="@+id/deletePaletteView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/paletteView"
+        app:layout_constraintStart_toEndOf="@+id/deletePaletteView"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
