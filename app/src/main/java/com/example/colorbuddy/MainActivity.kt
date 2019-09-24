@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.wardrobeButton -> Intent(this,
                 WardrobeListActivity::class.java)
             R.id.roomsButton -> Intent(this, RoomListActivity::class.java)
-            R.id.itemButton -> Intent(this, ItemActivity::class.java)
+            R.id.itemButton -> Intent(this, TotalItemsActivity::class.java)
             else -> throw IllegalArgumentException("Undefined Button Pressed")
         }
         startActivity(intent)

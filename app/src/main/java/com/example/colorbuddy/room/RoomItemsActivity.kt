@@ -75,8 +75,9 @@ class RoomItemsActivity : AppCompatActivity() {
         }
 
 
-        //btnDeleteItem.setOnClickListener()
-        //remove item from item list for room
+        btnDeleteItem.setOnClickListener{
+
+        }
     }
 
 

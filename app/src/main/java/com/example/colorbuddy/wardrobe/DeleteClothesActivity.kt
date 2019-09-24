@@ -1,10 +1,14 @@
 package com.example.colorbuddy.wardrobe
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
@@ -27,7 +31,6 @@ class DeleteClothesActivity : AppCompatActivity() {
     private lateinit var roomId: String
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_delete_clothes)
@@ -41,18 +44,17 @@ class DeleteClothesActivity : AppCompatActivity() {
         this.title = wardrobeName
 
 
-
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()){
+                if (p0.exists()) {
                     clothes.clear()
-                    for(w in p0.children){
+                    for (w in p0.children) {
                         val item = w.getValue(Clothes::class.java)
-                        if( item?.wardrobeId == wardrobeName) {
+                        if (item?.wardrobeId == wardrobeName) {
                             clothes.add(item!!)
                         }
                     }
@@ -62,36 +64,28 @@ class DeleteClothesActivity : AppCompatActivity() {
                 }
             }
         })
-
-
-
-        btnDeleteClothes.setOnClickListener{
+        btnDeleteClothes.setOnClickListener {
 
             deleteClothes()
 
         }
-
-
-
-
-
-
-
     }
 
-    fun deleteClothes(){
+    fun deleteClothes() {
         val clothesToDelete = mutableListOf<Clothes>()
         var i = 0
-        for (c in clothesView.children){
-            if(c.checkBox.isChecked){
+        for (c in clothesView.children) {
+            if (c.checkBox.isChecked) {
                 clothesToDelete.add(clothes[i])
             }
             i++
         }
-
-        for(c in clothesToDelete){
+        for (c in clothesToDelete) {
             val dref = FirebaseDatabase.getInstance().getReference("Clothes").child(c.clothesId)
             dref.removeValue()
         }
     }
 }
+
+
+
