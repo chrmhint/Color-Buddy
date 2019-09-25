@@ -7,4 +7,6 @@
     <string name="alert_dialog_message">Are you sure?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="Items">Items</string>
+    <string name="Clothes">Clothes</string>
 </resources>

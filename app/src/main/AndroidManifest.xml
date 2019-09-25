@@ -10,8 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddGroupActivity"></activity>
-        <activity android:name=".GroupsActivity" />
+        <activity android:name=".Groups.NewItemActivity"></activity>
+        <activity android:name=".Groups.DeleteItemsActivity" />
+        <activity android:name=".Groups.GroupItemsActivity" />
+        <activity android:name=".Groups.AddGroupActivity" />
+        <activity android:name=".Groups.GroupsActivity" />
         <activity android:name=".TotalItemsActivity" />
         <activity android:name=".wardrobe.DeleteClothesActivity" />
         <activity android:name=".wardrobe.NewClothesActivity" />

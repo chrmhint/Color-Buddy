@@ -4,65 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".room.NewItemActivity">
+    tools:context=".Groups.NewItemActivity">
 
     <EditText
-        android:id="@+id/itemType"
+        android:id="@+id/newItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="128dp"
         android:ems="10"
-        android:hint="Item Type"
+        android:hint="Item Name/Type"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/itemDescription"
+        android:id="@+id/newItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:hint="Item Description"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemType"
-        app:layout_constraintStart_toStartOf="@+id/itemType"
-        app:layout_constraintTop_toBottomOf="@+id/itemType" />
-
-    <EditText
-        android:id="@+id/itemPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Item Primary Color"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemDescription"
-        app:layout_constraintStart_toStartOf="@+id/itemDescription"
-        app:layout_constraintTop_toBottomOf="@+id/itemDescription" />
-
-    <EditText
-        android:id="@+id/itemSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Item Secondary Color"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/itemPrimary"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/itemPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/itemPrimary" />
+        app:layout_constraintEnd_toEndOf="@+id/newItemName"
+        app:layout_constraintStart_toStartOf="@+id/newItemName"
+        app:layout_constraintTop_toBottomOf="@+id/newItemName" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnNewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/itemSecondary"
-        app:layout_constraintStart_toStartOf="@+id/itemSecondary"
-        app:layout_constraintTop_toBottomOf="@+id/itemSecondary" />
-
+        app:layout_constraintEnd_toEndOf="@+id/newItemDescription"
+        app:layout_constraintStart_toStartOf="@+id/newItemDescription"
+        app:layout_constraintTop_toBottomOf="@+id/newItemDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

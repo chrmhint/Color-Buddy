@@ -1,7 +1,7 @@
 package com.example.colorbuddy.classes
 
-class Item(val roomId: String, val itemId: String, val itemName: String, val itemDescript: String, val itemPrimary: String, val itemSecondary: String){
+class Item(val groupName: String, val itemId: String, val itemType:String, val itemName: String, val itemDescript: String, val c1:String,val c2:String,val c3:String,val c4:String, val c5:String){
 
-    constructor():this("","","","","", "")
+    constructor():this("","","","","", "","","","","")
 
 }

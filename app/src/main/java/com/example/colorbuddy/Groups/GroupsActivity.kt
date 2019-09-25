@@ -1,18 +1,17 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.Groups
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.GroupAdapter
 import com.example.colorbuddy.classes.Group
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_groups.*
-import kotlinx.android.synthetic.main.activity_total_items.*
 
 class GroupsActivity : AppCompatActivity() {
 
@@ -20,6 +19,9 @@ class GroupsActivity : AppCompatActivity() {
     private lateinit var groupName: TextView
     private lateinit var groupSwitch: Switch
     private lateinit var groupList: MutableList<Group>
+    private lateinit var roomList: MutableList<Group>
+    private lateinit var wardrobeList: MutableList<Group>
+    private lateinit var itemType: String
     private lateinit var ref: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,15 +33,10 @@ class GroupsActivity : AppCompatActivity() {
         groupName = findViewById(R.id.groupTitle)
         groupSwitch = findViewById(R.id.groupSwitch)
         groupList = mutableListOf()
-
-        groupSwitch.setOnCheckedChangeListener { _, b ->
-            if(listSwitch.isChecked){
-                loadWardrobes(groupList)
-            }
-            else{
-                loadRooms()
-            }
-        }
+        roomList = mutableListOf()
+        wardrobeList = mutableListOf()
+        itemType = "Clothing"
+        groupSwitch.isChecked = false
 
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -49,37 +46,56 @@ class GroupsActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
                     groupList.clear()
+                    wardrobeList.clear()
                     for(g in p0.children){
                         val group = g.getValue(Group::class.java)
-                        groupList.add(group!!)
+                        if(group!!.groupType=="Wardrobe") {
+                            wardrobeList.add(group)
+                        }
+                        groupList.add(group)
                     }
+                    groupsView.layoutManager = LinearLayoutManager(applicationContext)
+                    groupsView.adapter = GroupAdapter(wardrobeList,itemType)
                 }
-                groupsView.layoutManager = LinearLayoutManager(applicationContext)
-                groupsView.adapter = GroupAdapter(groupList)
             }
         })
 
+        groupSwitch.setOnCheckedChangeListener { _, _ ->
+            if(groupSwitch.isChecked){
+                loadRooms()
+            }
+            else{
+                loadWardrobes()
+            }
+        }
 
         btnGroupAdd.setOnClickListener {
-            val intent = Intent(this,AddGroupActivity::class.java)
+            val intent = Intent(this, AddGroupActivity::class.java)
             startActivityForResult(intent,1)
         }
     }
 
-    private fun loadWardrobes(groupList: MutableList<Group>){
-        var wardrobeList: MutableList<Group>? = null
+    private fun loadWardrobes(){
+        wardrobeList.clear()
+        itemType = "Clothing"
         for(g in groupList){
-
             if(g.groupType=="Wardrobe") {
-                wardrobeList!!.add(g)
+                wardrobeList.add(g)
             }
         }
-
         groupsView.layoutManager = LinearLayoutManager(applicationContext)
-        groupsView.adapter = GroupAdapter(wardrobeList!!)
+        groupsView.adapter = GroupAdapter(wardrobeList,itemType)
     }
 
     private fun loadRooms(){
-
+        roomList.clear()
+        itemType = "Item"
+        for(g in groupList){
+            if(g.groupType=="Room") {
+                roomList.add(g)
+            }
+        }
+        groupsView.layoutManager = LinearLayoutManager(applicationContext)
+        groupsView.adapter = GroupAdapter(roomList,itemType)
     }
 }

@@ -1,10 +1,11 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.Groups
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.Toast
+import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Group
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -25,20 +26,27 @@ class AddGroupActivity : AppCompatActivity() {
         groupTypeSwitch = findViewById(R.id.groupTypeSwitch)
 
         btnAddGroup.setOnClickListener {
-            addGroup(ref,groupName, groupTypeSwitch)
+            addGroup(ref,groupName)
         }
     }
 
-    private fun addGroup(ref: DatabaseReference,name: EditText,type: Switch){
+    private fun addGroup(ref: DatabaseReference,name: EditText){
         var mName = name.text
-
+        lateinit var type: String
         if(mName.isEmpty()){
             name.error = "Please enter the name of a Group"
             return
         }
 
+        if(groupTypeSwitch.isChecked){
+            type = "Room"
+        }
+        else{
+            type = "Wardrobe"
+        }
+
         var gID = ref.push().key
-        var group = Group(gID.toString(),mName.toString(),"","","","","","")
+        var group = Group(gID.toString(),mName.toString(),type,"","","","","")
         ref.child(gID.toString()).setValue(group).addOnCompleteListener {
             Toast.makeText(applicationContext, "Group saved successfully", Toast.LENGTH_LONG).show()
         }
