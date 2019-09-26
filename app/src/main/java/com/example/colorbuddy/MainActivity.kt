@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val intent = when (view.id){
             R.id.wardrobeButton -> Intent(this,
                 WardrobeListActivity::class.java)
-            R.id.roomsButton -> Intent(this, RoomListActivity::class.java)
+            R.id.roomsButton -> Intent(this, GroupsActivity::class.java)
             R.id.itemButton -> Intent(this, TotalItemsActivity::class.java)
             else -> throw IllegalArgumentException("Undefined Button Pressed")
         }

@@ -9,7 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_total_items"
         android:layout_width="334dp"
-        android:layout_height="393dp"
+        android:layout_height="450dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/titleTextView"
         app:layout_constraintStart_toStartOf="@+id/titleTextView"
