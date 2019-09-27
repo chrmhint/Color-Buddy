@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.Groups.GroupItemsActivity
 import com.example.colorbuddy.R
@@ -28,6 +29,11 @@ class GroupAdapter(groupList: MutableList<com.example.colorbuddy.classes.Group>,
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val group = mGroups[position]
+        val param = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1.0f
+        )
         holder.view.rowTitle.text = group.groupName
     }
 }

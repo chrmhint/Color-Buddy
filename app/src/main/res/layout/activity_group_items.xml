@@ -25,7 +25,38 @@
         android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/groupC1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/groupC2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/groupC3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/groupC4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/groupC5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/transparent" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnItemAdd"

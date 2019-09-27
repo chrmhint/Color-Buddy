@@ -37,11 +37,11 @@ class NewItemActivity : AppCompatActivity() {
         itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
         itemName = newItemName.text.toString()
         itemDescript = newItemDescription.text.toString()
-        c1 = ""
-        c2 = ""
-        c3 = ""
-        c4 = ""
-        c5 = ""
+        c1 = "#FFEF03"
+        c2 = "#FC199A"
+        c3 = "#9AFB20"
+        c4 = "#00E6FE"
+        c5 = "#A00EEB"
         ref = FirebaseDatabase.getInstance().getReference("Items")
         itemId = ref.push().key!!
         val item = Item(groupName,itemId,itemType,itemName,itemDescript,c1,c2,c3,c4,c5)

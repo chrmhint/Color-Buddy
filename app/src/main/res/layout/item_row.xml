@@ -25,14 +25,14 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toBottomOf="@+id/itemPalette"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
+        app:layout_constraintStart_toEndOf="@+id/itemPalette"
+        app:layout_constraintTop_toTopOf="@+id/itemPalette" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="100dp"
+        android:id="@+id/itemPalette"
+        android:layout_width="50dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -44,17 +44,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/itemC1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@android:color/holo_blue_dark" />
+            android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/itemC2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@color/colorAccent" />
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/itemC3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/itemC4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/itemC5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
