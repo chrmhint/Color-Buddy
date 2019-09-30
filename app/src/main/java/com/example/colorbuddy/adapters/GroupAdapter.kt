@@ -11,6 +11,7 @@ import com.example.colorbuddy.R
 import kotlinx.android.synthetic.main.group_row.view.*
 
 const val EXTRA_GROUP_NAME = "EXTRA_GROUP_NAME"
+const val EXTRA_GROUP_ID = "EXTRA_GROUP_ID"
 const val EXTRA_ITEM_TYPE = "EXTRA_ITEM_TYPE"
 
 class GroupAdapter(groupList: MutableList<com.example.colorbuddy.classes.Group>,itemType:String): RecyclerView.Adapter<GroupViewHolder>(){
@@ -29,11 +30,6 @@ class GroupAdapter(groupList: MutableList<com.example.colorbuddy.classes.Group>,
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val group = mGroups[position]
-        val param = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            1.0f
-        )
         holder.view.rowTitle.text = group.groupName
     }
 }
@@ -44,6 +40,7 @@ class GroupViewHolder(val view: View, val type:String): RecyclerView.ViewHolder(
             val intent = Intent(view.context, GroupItemsActivity::class.java)
             intent.putExtra(EXTRA_GROUP_NAME, view.rowTitle.text)
             intent.putExtra(EXTRA_ITEM_TYPE,type)
+            //intent.putExtra(EXTRA_GROUP_ID,  )
             view.context.startActivity(intent)
         }
     }

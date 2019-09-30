@@ -1,8 +1,10 @@
 package com.example.colorbuddy.Groups
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,7 @@ class DeleteItemsActivity : AppCompatActivity() {
     private lateinit var items: MutableList<Item>
     private lateinit var ref: DatabaseReference
     private lateinit var groupName: String
+    private lateinit var groupId: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,7 @@ class DeleteItemsActivity : AppCompatActivity() {
         items = mutableListOf()
         itemsView = findViewById(R.id.recyclerView_delete_items)
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+        groupId = intent.getStringExtra("EXTRA_GROUP_NAME")
 
         this.title = groupName
 
@@ -54,7 +58,25 @@ class DeleteItemsActivity : AppCompatActivity() {
         })
 
         btnDeleteItem.setOnClickListener {
-            deleteItems()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Are you sure?")
+            builder.setMessage("Do you want to delete item(s)?")
+            builder.setPositiveButton("Yes", DialogInterface.OnClickListener{ dialog, id ->
+                deleteItems()
+            })
+            builder.setNegativeButton("No",{_,_ -> })
+            builder.show()
+        }
+
+        btnDeleteRoom.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Are you sure?")
+            builder.setMessage("Do you want to delete Room?")
+            builder.setPositiveButton("Yes", DialogInterface.OnClickListener{ dialog, id ->
+                deleteRoom()
+            })
+            builder.setNegativeButton("No",{_,_ -> })
+            builder.show()
         }
     }
 
@@ -73,5 +95,14 @@ class DeleteItemsActivity : AppCompatActivity() {
         }
 
         finish()
+    }
+
+    private fun deleteRoom(){
+        val roomRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupName)
+        for(i in items){
+            val deleteRef = FirebaseDatabase.getInstance().getReference("Items").child(i.itemId)
+            deleteRef.removeValue()
+        }
+        roomRef.removeValue()
     }
 }
