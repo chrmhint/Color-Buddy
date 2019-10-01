@@ -75,6 +75,12 @@ class GroupsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        groupSwitch.isChecked = false
+        loadWardrobes()
+    }
+
     private fun loadWardrobes(){
         wardrobeList.clear()
         itemType = "Clothing"
