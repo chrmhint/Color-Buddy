@@ -16,7 +16,6 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_group_items.*
 
 const val EXTRA_GROUP_NAME:String = "EXTRA_GROUP_NAME"
-const val EXTRA_GROUP_ID:String = "EXTRA_GROUP_ID"
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class GroupItemsActivity : AppCompatActivity() {
@@ -110,8 +109,8 @@ class GroupItemsActivity : AppCompatActivity() {
         btnItemDelete.setOnClickListener {
             val intent = Intent(this,DeleteItemsActivity::class.java)
             intent.putExtra(EXTRA_GROUP_NAME,groupName)
-            //intent.putExtra(EXTRA_GROUP_NAME,)
             startActivityForResult(intent,1)
+            finish()
         }
 
         fun groupColors(){

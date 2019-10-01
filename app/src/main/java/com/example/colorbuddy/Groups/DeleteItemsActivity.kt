@@ -1,6 +1,7 @@
 package com.example.colorbuddy.Groups
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.DeleteItemAdapter
+import com.example.colorbuddy.classes.Group
 import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_delete_items.*
@@ -21,6 +23,7 @@ class DeleteItemsActivity : AppCompatActivity() {
     private lateinit var itemsView: RecyclerView
     private lateinit var items: MutableList<Item>
     private lateinit var ref: DatabaseReference
+    private lateinit var groupRef: DatabaseReference
     private lateinit var groupName: String
     private lateinit var groupId: String
 
@@ -30,12 +33,30 @@ class DeleteItemsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_delete_items)
 
         ref = FirebaseDatabase.getInstance().getReference("Items")
+        groupRef = FirebaseDatabase.getInstance().getReference("Groups")
         items = mutableListOf()
         itemsView = findViewById(R.id.recyclerView_delete_items)
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
-        groupId = intent.getStringExtra("EXTRA_GROUP_NAME")
 
         this.title = groupName
+
+        groupRef.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    for(i in p0.children){
+                        val item = i.getValue(Group::class.java)
+                        if(item?.groupName == groupName){
+                            groupId = item.groupId
+                        }
+
+                    }
+                }
+            }
+        })
 
         ref.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -98,11 +119,13 @@ class DeleteItemsActivity : AppCompatActivity() {
     }
 
     private fun deleteRoom(){
-        val roomRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupName)
+        val deleteGroupRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
         for(i in items){
             val deleteRef = FirebaseDatabase.getInstance().getReference("Items").child(i.itemId)
             deleteRef.removeValue()
         }
-        roomRef.removeValue()
+        deleteGroupRef.removeValue()
+        finish()
+
     }
 }
