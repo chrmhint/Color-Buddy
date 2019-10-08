@@ -15,7 +15,7 @@
         <activity android:name=".Groups.GroupItemsActivity" />
         <activity android:name=".Groups.AddGroupActivity" />
         <activity android:name=".Groups.GroupsActivity" />
-        <activity android:name=".TotalItemsActivity" />
+        <activity android:name=".Inventory.TotalItemsActivity" />
         <activity android:name=".wardrobe.DeleteClothesActivity" />
         <activity android:name=".wardrobe.NewClothesActivity" />
         <activity android:name=".wardrobe.WardrobeItemsActivity" />

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.colorbuddy.Groups.GroupsActivity
+import com.example.colorbuddy.Inventory.TotalItemsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
 

@@ -1,10 +1,10 @@
-package com.example.colorbuddy
+package com.example.colorbuddy.Inventory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorbuddy.adapters.GroupAdapter
+import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.ItemAdapter
 import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.*
@@ -28,7 +28,7 @@ class TotalItemsActivity : AppCompatActivity() {
         clothesList = mutableListOf()
         itemList = mutableListOf()
 
-        titleTextView.text = getString(R.string.Items)
+        titleTextView.text = "Clothes"
 
         itemRef.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -40,23 +40,23 @@ class TotalItemsActivity : AppCompatActivity() {
                     items.clear()
                     for(w in p0.children){
                         val item = w.getValue(Item::class.java)
-                        if(item!!.itemType == "Item") {
-                            itemList.add(item!!)
+                        if(item!!.itemType == "Clothes") {
+                            clothesList.add(item!!)
                         }
                         items.add(item)
                     }
                     totalItemsView.layoutManager = LinearLayoutManager(applicationContext)
-                    totalItemsView.adapter = ItemAdapter(itemList)
+                    totalItemsView.adapter = ItemAdapter(clothesList)
                 }
             }
         })
 
         listSwitch.setOnCheckedChangeListener { _, b ->
             if(listSwitch.isChecked){
-                loadClothes()
+                loadItems()
             }
             else{
-                loadItems()
+                loadClothes()
             }
         }
 
