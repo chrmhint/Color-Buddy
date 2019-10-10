@@ -2,6 +2,7 @@ package com.example.colorbuddy.Inventory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Switch
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
@@ -17,6 +18,7 @@ class TotalItemsActivity : AppCompatActivity() {
     private lateinit var clothesList: MutableList<Item>
     private lateinit var itemList: MutableList<Item>
     private lateinit var items: MutableList<Item>
+    private lateinit var listSwitch: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,8 @@ class TotalItemsActivity : AppCompatActivity() {
         items = mutableListOf()
         clothesList = mutableListOf()
         itemList = mutableListOf()
+        listSwitch = findViewById(R.id.listSwitch)
+        listSwitch.isChecked = false
 
         titleTextView.text = "Clothes"
 
@@ -51,7 +55,9 @@ class TotalItemsActivity : AppCompatActivity() {
             }
         })
 
-        listSwitch.setOnCheckedChangeListener { _, b ->
+        loadClothes()
+
+        listSwitch.setOnCheckedChangeListener { _, _ ->
             if(listSwitch.isChecked){
                 loadItems()
             }
@@ -73,7 +79,6 @@ class TotalItemsActivity : AppCompatActivity() {
         totalItemsView.layoutManager = LinearLayoutManager(applicationContext)
         totalItemsView.adapter = ItemAdapter(clothesList)
     }
-
 
     private fun loadItems(){
         titleTextView.text = getString(R.string.Items)

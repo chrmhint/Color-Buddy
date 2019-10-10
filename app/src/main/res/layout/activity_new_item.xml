@@ -10,19 +10,19 @@
         android:id="@+id/newItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Item Name/Type"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/newItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Item Description"
         android:inputType="textPersonName"
@@ -34,9 +34,19 @@
         android:id="@+id/btnNewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="@+id/newItemDescription"
         app:layout_constraintStart_toStartOf="@+id/newItemDescription"
         app:layout_constraintTop_toBottomOf="@+id/newItemDescription" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="222dp"
+        android:layout_height="313dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/floral2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

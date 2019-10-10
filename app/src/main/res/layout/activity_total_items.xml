@@ -27,24 +27,6 @@
         app:layout_constraintStart_toStartOf="@+id/recyclerView_total_items"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView_total_items" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Add"
-        app:layout_constraintEnd_toStartOf="@+id/listSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Delete"
-        app:layout_constraintStart_toEndOf="@+id/listSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
