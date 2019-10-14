@@ -1,31 +1,35 @@
-package com.example.colorbuddy
+package com.example.test
 
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.net.Uri
 import android.provider.MediaStore
-import android.widget.ImageView
 import android.widget.Toast
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.widget.ImageView
+import kotlin.math.roundToInt
+import com.example.colorbuddy.R
 import kotlinx.android.synthetic.main.activity_item_checker.*
 
 
-class ItemChecker : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val IMAGE_CAPTURE_CODE = 1001
     val PERMISSION_CODE = 1000
 
     var imageSRC: Uri? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_item_checker)
+        setContentView(R.layout.activity_main)
 
         //added setOnClickListener to btnCapture that called
         //dispatchTakePictureIntent(), which handles all the camera stuff
@@ -79,7 +83,6 @@ class ItemChecker : AppCompatActivity() {
                     openCamera()
                 } else {
                     //permission not granted
-                    //weird warning here
                     Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT)
                 }
             }
@@ -108,60 +111,107 @@ class ItemChecker : AppCompatActivity() {
     }
 
     //find prominent colors
-    //@SuppressLint("NewApi")
     fun readImage(bm: Bitmap) {
 
-        /*
-        val startWidth = (bm.width - (bm.width * .8))
-        val endWidth = (bm.width - (bm.width * .2))
-        val startHeight = (bm.height - (bm.height * .8))
-        val endHeight = (bm.height - (bm.height * .2))
-        */
+        //bounds of color search
+        val startWidth: Int = (bm.width - (bm.width * .8)).roundToInt()
+        val endWidth = (bm.width - (bm.width * .2)).roundToInt()
+        val startHeight = (bm.height - (bm.height * .8)).roundToInt()
+        val endHeight = (bm.height - (bm.height * .2)).roundToInt()
 
-        val pixel = bm.getPixel(0, 0)
-        btnCapture.setBackgroundColor(pixel)
-/*
-        var pixels = IntArray(1000){i -> -1}
-        var pixel_nums = IntArray(1000) { i -> 0}
-        var color: Int
-        var pos: Int
-        var currentIndex = 0
 
-        for (w in 1 until bm.width) {
-            for (h in 0 until bm.height) {
+        //collect pixel information and build map of color -> color appearances
+        var pixels = mutableMapOf(0 to 0)
+        var color = 0
+
+        //within subsection of picture, take every 100th pixel
+        for (w in startWidth until endWidth step 100) {
+            for (h in startHeight until endHeight step 100) {
+                //sarg
                 color = bm.getPixel(w, h)
 
-                if (pixels.contains(color)) {
-                    pos = pixels.binarySearch(color)
-                    pixel_nums[pos]++
+                //separate each pixel
+                val A = color shr 24 and 0xff // or color >>> 24
+                var R = color shr 16 and 0xff
+                var G = color shr 8 and 0xff
+                var B = color and 0xff
 
-                } else
-                    pixels[currentIndex] = color
-                    currentIndex++
-            }
+                //posterize color
+                R = posterizePixel(R)
+                G = posterizePixel(G)
+                B = posterizePixel(B)
 
-            //change button color to most prominent color in image
-            pos = pixel_nums.binarySearch(pixel_nums.max())
+                var post = Color.argb(A, R, G, B)
 
-            if(pixels.isEmpty()){
-                btnCapture.setBackgroundColor(0)
-            }
-            else {
-                pixels[0]?.let { btnCapture.setBackgroundColor(it) }
+                //find prominent colors
+                if (pixels.containsKey(post)) {
+                    val value: Int = pixels.getValue(post)
+                    pixels.replace(post, value, value + 1)
+
+                }
+
+                else
+                    pixels[post] = 1
             }
 
         }
-*/
+
+
+        //convert map to list of most frequent colors
+        val filtered_pixels = pixels.filterValues { it >= 10 }
+        val pixel_list = ArrayList(filtered_pixels.keys)
+
+
+        if(pixel_list.isEmpty()){
+            btnCapture.setBackgroundColor(color)
+
+        }
+
+        else if(pixel_list.size >= 3){
+            btnCapture.setBackgroundColor(pixel_list[0])
+            btnCapture.setText(Integer.toHexString(pixel_list[0]))
+
+        }
+
+        else
+            btnCapture.setBackgroundColor(pixel_list[0])
 
 
     }
+    //round each pixel
+    fun posterizePixel(p: Int): Int {
+        if (p < 5)
+            return 0
+        if( p < 20)
+            return 15
+        if (p < 40)
+            return 25
+        if(p < 55)
+            return 40
+        if (p < 70)
+            return 50
+        if(p < 85)
+            return 70
+        if(p < 100)
+            return 85
+        if(p < 115)
+            return 100
+        if (p < 130)
+            return 115
+        if(p < 140)
+            return 120
+        if (p < 160)
+            return 140
+        if(p < 200)
+            return 160
+        if(p < 250)
+            return 200
+
+        return 250
+    }
 
 }
-//display prominent colors
 
-
-
-//check for matches
 
 
 
