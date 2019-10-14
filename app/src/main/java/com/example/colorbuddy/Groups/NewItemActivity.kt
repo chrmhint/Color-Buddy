@@ -30,8 +30,8 @@ class NewItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_item)
 
-        val imageSRC: String = intent.getStringExtra("EXTRA_IMAGE_SRC")
-        imageView.setImageURI(imageSRC.toUri())
+        //val imageSRC: String = intent.getStringExtra("EXTRA_IMAGE_SRC")
+        //imageView.setImageURI(imageSRC.toUri())
 
         btnNewItem.setOnClickListener {
             addItem()

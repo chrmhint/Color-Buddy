@@ -75,7 +75,7 @@ class ItemChecker : AppCompatActivity() {
             intent.putExtra(EXTRA_COLOR3, hexStrings[2])
             intent.putExtra(EXTRA_COLOR4, hexStrings[3])
             intent.putExtra(EXTRA_COLOR5, hexStrings[4])
-            intent.putExtra(EXTRA_IMG_SRC, imageSRC)
+            //intent.putExtra(EXTRA_IMG_SRC, imageSRC.toString())
 
             startActivityForResult(intent,1)
         }
