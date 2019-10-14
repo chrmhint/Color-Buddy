@@ -1,9 +1,12 @@
 package com.example.colorbuddy.Groups
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.net.toUri
 import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Item
+import com.example.colorbuddy.ItemChecker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_new_item.*
@@ -27,6 +30,9 @@ class NewItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_item)
 
+        val imageSRC: String = intent.getStringExtra("EXTRA_IMAGE_SRC")
+        imageView.setImageURI(imageSRC.toUri())
+
         btnNewItem.setOnClickListener {
             addItem()
         }
@@ -37,11 +43,11 @@ class NewItemActivity : AppCompatActivity() {
         itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
         itemName = newItemName.text.toString()
         itemDescript = newItemDescription.text.toString()
-        c1 = "#FFEF03"
-        c2 = "#FC199A"
-        c3 = "#9AFB20"
-        c4 = "#00E6FE"
-        c5 = "#A00EEB"
+        c1 = intent.getStringExtra("EXTRA_COLOR_1")
+        c2 = intent.getStringExtra("EXTRA_COLOR_2")
+        c3 = intent.getStringExtra("EXTRA_COLOR_3")
+        c4 = intent.getStringExtra("EXTRA_COLOR_4")
+        c5 = intent.getStringExtra("EXTRA_COLOR_5")
         ref = FirebaseDatabase.getInstance().getReference("Items")
         itemId = ref.push().key!!
         val item = Item(groupName,itemId,itemType,itemName,itemDescript,c1,c2,c3,c4,c5)

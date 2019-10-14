@@ -1,4 +1,4 @@
-package com.example.test
+package com.example.colorbuddy
 
 import android.Manifest
 import android.app.Activity
@@ -14,25 +14,39 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.widget.ImageView
+import com.example.colorbuddy.Groups.EXTRA_GROUP_NAME
+import com.example.colorbuddy.Groups.NewItemActivity
 import kotlin.math.roundToInt
 import com.example.colorbuddy.R
+import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
+import com.example.colorbuddy.classes.Item
 import kotlinx.android.synthetic.main.activity_item_checker.*
 
+const val EXTRA_COLOR1:String = "EXTRA_COLOR_1"
+const val EXTRA_COLOR2:String = "EXTRA_COLOR_2"
+const val EXTRA_COLOR3:String = "EXTRA_COLOR_3"
+const val EXTRA_COLOR4:String = "EXTRA_COLOR_4"
+const val EXTRA_COLOR5:String = "EXTRA_COLOR_5"
+const val EXTRA_IMG_SRC:String = "EXTRA_IMG_SRC"
 
-class MainActivity : AppCompatActivity() {
+//on confirm, move to newItemActivity with hexString info
+class ItemChecker : AppCompatActivity() {
+
 
     private val IMAGE_CAPTURE_CODE = 1001
     val PERMISSION_CODE = 1000
 
     var imageSRC: Uri? = null
-
+    var hexStrings = arrayListOf<String>("FFFFFF", "FFFFFF", "FFFFFF", "FFFFFF", "FFFFFF")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_item_checker)
 
-        //added setOnClickListener to btnCapture that called
-        //dispatchTakePictureIntent(), which handles all the camera stuff
+        val groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+        val itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
+
+        //take picture
         btnCapture.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED ||
@@ -49,6 +63,21 @@ class MainActivity : AppCompatActivity() {
                 openCamera()
 
             }
+        }
+
+        //confirm -> move to NewItemActivity
+        btnConfirm.setOnClickListener {
+            val intent = Intent(this, NewItemActivity::class.java)
+            intent.putExtra(EXTRA_GROUP_NAME,groupName)
+            intent.putExtra(EXTRA_ITEM_TYPE,itemType)
+            intent.putExtra(EXTRA_COLOR1, hexStrings[0])
+            intent.putExtra(EXTRA_COLOR2, hexStrings[1])
+            intent.putExtra(EXTRA_COLOR3, hexStrings[2])
+            intent.putExtra(EXTRA_COLOR4, hexStrings[3])
+            intent.putExtra(EXTRA_COLOR5, hexStrings[4])
+            intent.putExtra(EXTRA_IMG_SRC, imageSRC)
+
+            startActivityForResult(intent,1)
         }
 
 
@@ -127,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         //within subsection of picture, take every 100th pixel
         for (w in startWidth until endWidth step 100) {
             for (h in startHeight until endHeight step 100) {
-                //sarg
+                //argb
                 color = bm.getPixel(w, h)
 
                 //separate each pixel
@@ -162,19 +191,12 @@ class MainActivity : AppCompatActivity() {
         val pixel_list = ArrayList(filtered_pixels.keys)
 
 
-        if(pixel_list.isEmpty()){
-            btnCapture.setBackgroundColor(color)
-
+        //get hex strings
+        for(e in 0..4){
+            hexStrings[e] = Integer.toHexString(pixel_list[e])
+            //remove alpha
+            hexStrings[e] = hexStrings[e].substring(2)
         }
-
-        else if(pixel_list.size >= 3){
-            btnCapture.setBackgroundColor(pixel_list[0])
-            btnCapture.setText(Integer.toHexString(pixel_list[0]))
-
-        }
-
-        else
-            btnCapture.setBackgroundColor(pixel_list[0])
 
 
     }
@@ -211,11 +233,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
-
-
-
-

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colorbuddy.ItemChecker
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
 import com.example.colorbuddy.adapters.ItemAdapter
@@ -99,8 +100,9 @@ class GroupItemsActivity : AppCompatActivity() {
             }
         })
 
+        //move to itemChecker instead of newItemActivity
         btnItemAdd.setOnClickListener {
-            val intent = Intent(this,NewItemActivity::class.java)
+            val intent = Intent(this,ItemChecker::class.java)
             intent.putExtra(EXTRA_GROUP_NAME,groupName)
             intent.putExtra(EXTRA_ITEM_TYPE,itemType)
             startActivityForResult(intent,1)
