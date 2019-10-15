@@ -21,6 +21,9 @@ import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
 import com.example.colorbuddy.classes.Item
 import kotlinx.android.synthetic.main.activity_item_checker.*
+import java.lang.Character.toUpperCase
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val EXTRA_COLOR1:String = "EXTRA_COLOR_1"
 const val EXTRA_COLOR2:String = "EXTRA_COLOR_2"
@@ -78,6 +81,8 @@ class ItemChecker : AppCompatActivity() {
             //intent.putExtra(EXTRA_IMG_SRC, imageSRC.toString())
 
             startActivityForResult(intent,1)
+            
+            finish()
         }
 
 
@@ -194,6 +199,9 @@ class ItemChecker : AppCompatActivity() {
         //get hex strings
         for(e in 0..4){
             hexStrings[e] = Integer.toHexString(pixel_list[e])
+
+            hexStrings[e] = hexStrings[e].toUpperCase(Locale.US)
+
             //remove alpha
             hexStrings[e] = hexStrings[e].substring(2)
         }

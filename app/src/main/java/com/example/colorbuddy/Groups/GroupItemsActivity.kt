@@ -78,6 +78,7 @@ class GroupItemsActivity : AppCompatActivity() {
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         1.0f
                     )
+
                     if(c1.isNotEmpty())
                         groupC1.setBackgroundColor(Color.parseColor(c1[0]))
                     groupC1.layoutParams = param
@@ -100,9 +101,9 @@ class GroupItemsActivity : AppCompatActivity() {
             }
         })
 
-        //move to itemChecker instead of newItemActivity
+
         btnItemAdd.setOnClickListener {
-            val intent = Intent(this,ItemChecker::class.java)
+            val intent = Intent(this,NewItemActivity::class.java)
             intent.putExtra(EXTRA_GROUP_NAME,groupName)
             intent.putExtra(EXTRA_ITEM_TYPE,itemType)
             startActivityForResult(intent,1)
