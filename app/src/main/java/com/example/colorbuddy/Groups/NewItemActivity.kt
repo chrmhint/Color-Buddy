@@ -46,7 +46,7 @@ class NewItemActivity : AppCompatActivity() {
     val PERMISSION_CODE = 1000
 
     var imageSRC: Uri? = null
-    var hexStrings = arrayListOf<String>("FFFFFF", "FFFFFF", "FFFFFF", "FFFFFF", "FFFFFF")
+    var hexStrings = arrayListOf<String>("#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
