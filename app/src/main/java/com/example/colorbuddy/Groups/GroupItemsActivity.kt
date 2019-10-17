@@ -15,6 +15,7 @@ import com.example.colorbuddy.adapters.ItemAdapter
 import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_group_items.*
+import kotlin.random.Random.Default.nextInt
 
 const val EXTRA_GROUP_NAME:String = "EXTRA_GROUP_NAME"
 
@@ -131,20 +132,21 @@ class GroupItemsActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 1.0f
             )
+
             if(c1.isNotEmpty())
-                groupC1.setBackgroundColor(Color.parseColor(c1[0]))
+                groupC1.setBackgroundColor(Color.parseColor(c1[nextInt(c1.size)]))
                 groupC1.layoutParams = param
             if(c2.isNotEmpty())
-                groupC2.setBackgroundColor(Color.parseColor(c2[0]))
+                groupC2.setBackgroundColor(Color.parseColor(c2[nextInt(c2.size)]))
                 groupC2.layoutParams = param
             if(c3.isNotEmpty())
-                groupC3.setBackgroundColor(Color.parseColor(c3[0]))
+                groupC3.setBackgroundColor(Color.parseColor(c3[nextInt(c3.size)]))
                 groupC3.layoutParams = param
             if(c4.isNotEmpty())
-                groupC4.setBackgroundColor(Color.parseColor(c4[0]))
+                groupC4.setBackgroundColor(Color.parseColor(c4[nextInt(c4.size)]))
                 groupC4.layoutParams = param
             if(c5.isNotEmpty())
-                groupC5.setBackgroundColor(Color.parseColor(c5[0]))
+                groupC5.setBackgroundColor(Color.parseColor(c5[nextInt(c5.size)]))
                 groupC5.layoutParams = param
 
         }
