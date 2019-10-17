@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.getBitmap
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.example.colorbuddy.R
@@ -23,7 +24,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_item_checker.*
 import kotlinx.android.synthetic.main.activity_new_item.*
-import kotlinx.android.synthetic.main.activity_new_item.btnCapture
+
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
@@ -37,6 +38,7 @@ class NewItemActivity : AppCompatActivity() {
     private lateinit var itemType: String
     private lateinit var itemName: String
     private lateinit var itemDescript: String
+    private lateinit var itemPalette: LinearLayout
     private lateinit var c1: String
     private lateinit var c2: String
     private lateinit var c3: String
@@ -52,29 +54,51 @@ class NewItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_item)
 
+        itemPalette = findViewById(R.id.newItemPalette)
+
         btnNewItem.setOnClickListener {
             addItem()
         }
 
 
         //take picture
-        btnCapture.setOnClickListener {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_DENIED ||
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED
-            ) {
-                //permission denied
-                val permission =
-                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                //show popup
-                requestPermissions(permission, PERMISSION_CODE)
-            } else {
-                //permission granted
-                openCamera()
 
-            }
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED ||
+            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_DENIED
+        ) {
+            //permission denied
+            val permission =
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            //show popup
+            requestPermissions(permission, PERMISSION_CODE)
+        } else {
+            //permission granted
+            openCamera()
+
+            val param = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                1.0f
+            )
+
+            newItemC1.setBackgroundColor(Color.parseColor(hexStrings[0]))
+            newItemC1.layoutParams = param
+            newItemC2.setBackgroundColor(Color.parseColor(hexStrings[1]))
+            newItemC2.layoutParams = param
+            newItemC3.setBackgroundColor(Color.parseColor(hexStrings[2]))
+            newItemC3.layoutParams = param
+            newItemC4.setBackgroundColor(Color.parseColor(hexStrings[3]))
+            newItemC4.layoutParams = param
+            newItemC5.setBackgroundColor(Color.parseColor(hexStrings[4]))
+            newItemC5.layoutParams = param
+
         }
+
+
+
+
     }
 
     private fun addItem(){

@@ -14,15 +14,15 @@
         android:ems="10"
         android:hint="Item Name/Type"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/newItemPalette"
+        app:layout_constraintStart_toStartOf="@+id/newItemPalette"
+        app:layout_constraintTop_toBottomOf="@+id/newItemPalette" />
 
     <EditText
         android:id="@+id/newItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Item Description"
         android:inputType="textPersonName"
@@ -34,7 +34,7 @@
         android:id="@+id/btnNewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="@+id/newItemDescription"
         app:layout_constraintStart_toStartOf="@+id/newItemDescription"
@@ -42,20 +42,53 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="222dp"
+        android:layout_width="0dp"
         android:layout_height="313dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/floral2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnCapture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CAPTURE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:id="@+id/newItemPalette"
+        android:layout_width="299dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <ImageView
+            android:id="@+id/newItemC1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/newItemC2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/newItemC3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/newItemC4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/newItemC5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
