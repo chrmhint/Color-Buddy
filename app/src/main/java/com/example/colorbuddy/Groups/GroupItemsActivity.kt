@@ -74,33 +74,15 @@ class GroupItemsActivity : AppCompatActivity() {
                         c5.add(c.c5)
                     }
 
-                    val param = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        1.0f
-                    )
-
-                    if(c1.isNotEmpty())
-                        groupC1.setBackgroundColor(Color.parseColor(c1[0]))
-                    groupC1.layoutParams = param
-                    if(c2.isNotEmpty())
-                        groupC2.setBackgroundColor(Color.parseColor(c2[0]))
-                    groupC2.layoutParams = param
-                    if(c3.isNotEmpty())
-                        groupC3.setBackgroundColor(Color.parseColor(c3[0]))
-                    groupC3.layoutParams = param
-                    if(c4.isNotEmpty())
-                        groupC4.setBackgroundColor(Color.parseColor(c4[0]))
-                    groupC4.layoutParams = param
-                    if(c5.isNotEmpty())
-                        groupC5.setBackgroundColor(Color.parseColor(c5[0]))
-                        groupC5.layoutParams = param
+                    groupColors()
 
                     itemView.layoutManager = LinearLayoutManager(applicationContext)
                     itemView.adapter = ItemAdapter(items)
                 }
             }
         })
+
+        groupColors()
 
 
         btnItemAdd.setOnClickListener {
@@ -116,41 +98,39 @@ class GroupItemsActivity : AppCompatActivity() {
             startActivityForResult(intent,1)
             finish()
         }
+    }
 
-        fun groupColors(){
+    private fun groupColors(){
 
-            for(c in items){
-                c1.add(c.c1)
-                c2.add(c.c2)
-                c3.add(c.c3)
-                c4.add(c.c4)
-                c5.add(c.c5)
-            }
-
-            val param = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                1.0f
-            )
-
-            if(c1.isNotEmpty())
-                groupC1.setBackgroundColor(Color.parseColor(c1[nextInt(c1.size)]))
-                groupC1.layoutParams = param
-            if(c2.isNotEmpty())
-                groupC2.setBackgroundColor(Color.parseColor(c2[nextInt(c2.size)]))
-                groupC2.layoutParams = param
-            if(c3.isNotEmpty())
-                groupC3.setBackgroundColor(Color.parseColor(c3[nextInt(c3.size)]))
-                groupC3.layoutParams = param
-            if(c4.isNotEmpty())
-                groupC4.setBackgroundColor(Color.parseColor(c4[nextInt(c4.size)]))
-                groupC4.layoutParams = param
-            if(c5.isNotEmpty())
-                groupC5.setBackgroundColor(Color.parseColor(c5[nextInt(c5.size)]))
-                groupC5.layoutParams = param
-
+        for(c in items){
+            c1.add(c.c1)
+            c2.add(c.c2)
+            c3.add(c.c3)
+            c4.add(c.c4)
+            c5.add(c.c5)
         }
 
-        groupColors()
+        val param = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1.0f
+        )
+
+        if(c1.isNotEmpty())
+            groupC1.setBackgroundColor(Color.parseColor(c1[nextInt(c1.size)]))
+        groupC1.layoutParams = param
+        if(c2.isNotEmpty())
+            groupC2.setBackgroundColor(Color.parseColor(c2[nextInt(c2.size)]))
+        groupC2.layoutParams = param
+        if(c3.isNotEmpty())
+            groupC3.setBackgroundColor(Color.parseColor(c3[nextInt(c3.size)]))
+        groupC3.layoutParams = param
+        if(c4.isNotEmpty())
+            groupC4.setBackgroundColor(Color.parseColor(c4[nextInt(c4.size)]))
+        groupC4.layoutParams = param
+        if(c5.isNotEmpty())
+            groupC5.setBackgroundColor(Color.parseColor(c5[nextInt(c5.size)]))
+        groupC5.layoutParams = param
+
     }
 }
