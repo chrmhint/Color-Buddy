@@ -76,22 +76,6 @@ class NewItemActivity : AppCompatActivity() {
             //permission granted
             openCamera()
 
-//            val param = LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                1.0f
-//            )
-//
-//            newItemC1.setBackgroundColor(Color.parseColor(hexStrings[0]))
-//            newItemC1.layoutParams = param
-//            newItemC2.setBackgroundColor(Color.parseColor(hexStrings[1]))
-//            newItemC2.layoutParams = param
-//            newItemC3.setBackgroundColor(Color.parseColor(hexStrings[2]))
-//            newItemC3.layoutParams = param
-//            newItemC4.setBackgroundColor(Color.parseColor(hexStrings[3]))
-//            newItemC4.layoutParams = param
-//            newItemC5.setBackgroundColor(Color.parseColor(hexStrings[4]))
-//            newItemC5.layoutParams = param
 
         }
     }
@@ -235,6 +219,23 @@ class NewItemActivity : AppCompatActivity() {
             hexStrings[e] = "#" + hexStrings[e]
         }
 
+        val param = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            1.0f
+        )
+
+        newItemC1.setBackgroundColor(Color.parseColor(hexStrings[0]))
+        newItemC1.layoutParams = param
+        newItemC2.setBackgroundColor(Color.parseColor(hexStrings[1]))
+        newItemC2.layoutParams = param
+        newItemC3.setBackgroundColor(Color.parseColor(hexStrings[2]))
+        newItemC3.layoutParams = param
+        newItemC4.setBackgroundColor(Color.parseColor(hexStrings[3]))
+        newItemC4.layoutParams = param
+        newItemC5.setBackgroundColor(Color.parseColor(hexStrings[4]))
+        newItemC5.layoutParams = param
+
 
     }
 
@@ -267,7 +268,7 @@ class NewItemActivity : AppCompatActivity() {
         if(p < 250)
             return 200
 
-        return 250
+        return 255
     }
 
 
