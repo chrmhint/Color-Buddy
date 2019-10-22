@@ -12,6 +12,7 @@ import com.example.colorbuddy.ItemChecker
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
 import com.example.colorbuddy.adapters.ItemAdapter
+import com.example.colorbuddy.classes.Group
 import com.example.colorbuddy.classes.Item
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_group_items.*
@@ -27,7 +28,9 @@ class GroupItemsActivity : AppCompatActivity() {
     private lateinit var items: MutableList<Item>
     private lateinit var itemType: String
     private lateinit var ref: DatabaseReference
+    private lateinit var gref: DatabaseReference
     private lateinit var groupName: String
+    private lateinit var groupID: String
     private lateinit var c1: MutableList<String>
     private lateinit var c2: MutableList<String>
     private lateinit var c3: MutableList<String>
@@ -41,6 +44,7 @@ class GroupItemsActivity : AppCompatActivity() {
         paletteLayout = findViewById(R.id.paletteLayout)
         itemView = findViewById(R.id.recyclerView_items)
         ref = FirebaseDatabase.getInstance().getReference("Items")
+        gref = FirebaseDatabase.getInstance().getReference("Groups")
         items = mutableListOf()
         c1 = mutableListOf()
         c2 = mutableListOf()
@@ -51,6 +55,24 @@ class GroupItemsActivity : AppCompatActivity() {
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
 
         this.title = groupName
+
+        gref.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    for( i in p0.children){
+                        val group = i.getValue(Group::class.java)
+                        if(group?.groupName == groupName){
+                            groupID = group.groupId
+                        }
+                    }
+                }
+            }
+
+        })
 
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -102,13 +124,11 @@ class GroupItemsActivity : AppCompatActivity() {
 
     private fun groupColors(){
 
-        for(c in items){
-            c1.add(c.c1)
-            c2.add(c.c2)
-            c3.add(c.c3)
-            c4.add(c.c4)
-            c5.add(c.c5)
-        }
+        var gc1 = mostPromColor(c1)
+        var gc2 = mostPromColor(c2)
+        var gc3 = mostPromColor(c3)
+        var gc4 = mostPromColor(c4)
+        var gc5 = mostPromColor(c5)
 
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -117,20 +137,36 @@ class GroupItemsActivity : AppCompatActivity() {
         )
 
         if(c1.isNotEmpty())
-            groupC1.setBackgroundColor(Color.parseColor(c1[nextInt(c1.size)]))
-        groupC1.layoutParams = param
+            groupC1.setBackgroundColor(Color.parseColor(gc1))
+            groupC1.layoutParams = param
         if(c2.isNotEmpty())
-            groupC2.setBackgroundColor(Color.parseColor(c2[nextInt(c2.size)]))
-        groupC2.layoutParams = param
+            groupC2.setBackgroundColor(Color.parseColor(gc2))
+            groupC2.layoutParams = param
         if(c3.isNotEmpty())
-            groupC3.setBackgroundColor(Color.parseColor(c3[nextInt(c3.size)]))
-        groupC3.layoutParams = param
+            groupC3.setBackgroundColor(Color.parseColor(gc3))
+            groupC3.layoutParams = param
         if(c4.isNotEmpty())
-            groupC4.setBackgroundColor(Color.parseColor(c4[nextInt(c4.size)]))
-        groupC4.layoutParams = param
+            groupC4.setBackgroundColor(Color.parseColor(gc4))
+            groupC4.layoutParams = param
         if(c5.isNotEmpty())
-            groupC5.setBackgroundColor(Color.parseColor(c5[nextInt(c5.size)]))
-        groupC5.layoutParams = param
+            groupC5.setBackgroundColor(Color.parseColor(gc5))
+            groupC5.layoutParams = param
 
+    }
+
+    private fun mostPromColor(colors: MutableList<String>): String{
+        val freqDist = mutableMapOf<String, Int>()
+
+        for( c in colors){
+            if(!freqDist.containsKey(c)){
+                freqDist.put(c,1)
+            }
+            var count = freqDist.getValue(c)
+            freqDist[c] = count + 1
+        }
+
+        val color = freqDist.maxBy { it.value }
+
+        return color!!.key
     }
 }
