@@ -95,9 +95,10 @@ class GroupItemsActivity : AppCompatActivity() {
                         c4.add(c.c4)
                         c5.add(c.c5)
                     }
-
-                    groupColors()
-
+                    if(items.isNotEmpty()) {
+                        groupColors()
+                    }
+                    
                     itemView.layoutManager = LinearLayoutManager(applicationContext)
                     itemView.adapter = ItemAdapter(items)
                 }

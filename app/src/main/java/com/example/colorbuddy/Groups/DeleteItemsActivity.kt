@@ -50,7 +50,7 @@ class DeleteItemsActivity : AppCompatActivity() {
                     for(i in p0.children){
                         val item = i.getValue(Group::class.java)
                         if(item?.groupName == groupName){
-                            groupId = item.groupId
+                            groupId = i.ref.key!!
                         }
 
                     }
