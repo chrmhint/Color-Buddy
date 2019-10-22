@@ -16,6 +16,7 @@ import android.provider.MediaStore.Images.Media.getBitmap
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.graphics.red
 import androidx.core.net.toUri
 import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Item
@@ -158,7 +159,7 @@ class NewItemActivity : AppCompatActivity() {
     fun readImage(bm: Bitmap) {
 
         //bounds of color search
-        val startWidth: Int = (bm.width - (bm.width * .8)).roundToInt()
+        val startWidth = (bm.width - (bm.width * .8)).roundToInt()
         val endWidth = (bm.width - (bm.width * .2)).roundToInt()
         val startHeight = (bm.height - (bm.height * .8)).roundToInt()
         val endHeight = (bm.height - (bm.height * .2)).roundToInt()
@@ -169,8 +170,8 @@ class NewItemActivity : AppCompatActivity() {
         var color = 0
 
         //within subsection of picture, take every 100th pixel
-        for (w in startWidth until endWidth step 100) {
-            for (h in startHeight until endHeight step 100) {
+        for (w in startWidth until endWidth step 50) {
+            for (h in startHeight until endHeight step 50) {
                 //argb
                 color = bm.getPixel(w, h)
 
@@ -186,20 +187,19 @@ class NewItemActivity : AppCompatActivity() {
                 B = posterizePixel(B)
 
                 var post = Color.argb(A, R, G, B)
+                var oldKey = 0
 
                 //find prominent colors
                 if (pixels.containsKey(post)) {
                     val value: Int = pixels.getValue(post)
                     pixels.replace(post, value, value + 1)
-
                 }
-
                 else
                     pixels[post] = 1
+
             }
 
         }
-
 
         //convert map to list of most frequent colors
         val filtered_pixels = pixels.filterValues { it >= 10 }
@@ -240,35 +240,64 @@ class NewItemActivity : AppCompatActivity() {
     }
 
     //round each pixel
-    fun posterizePixel(p: Int): Int {
-        if (p < 5)
-            return 0
+    private fun posterizePixel(p: Int): Int {
         if( p < 20)
-            return 15
+            return 0
         if (p < 40)
             return 25
-        if(p < 55)
+        if(p < 60)
             return 40
-        if (p < 70)
-            return 50
-        if(p < 85)
-            return 70
+        if (p < 80)
+            return 60
         if(p < 100)
-            return 85
-        if(p < 115)
+            return 80
+        if (p < 120)
             return 100
-        if (p < 130)
-            return 115
         if(p < 140)
             return 120
         if (p < 160)
             return 140
-        if(p < 200)
+        if(p < 180)
             return 160
-        if(p < 250)
+        if(p < 200)
+            return 180
+        if(p < 220)
             return 200
+        if(p < 240)
+            return 220
 
         return 255
+
+    }
+
+    //returns true if 2 hues are in the same color range
+    private fun isSameHue(hue1: Float, hue2: Float): Boolean{
+
+        //red
+        if(hue1 <= 60f && hue2 <= 60f)
+            return true
+
+        //yellow
+        if(hue1 <= 120f && hue2 <= 120f)
+            return true
+
+        //green
+        if(hue1 <= 180f && hue2 <= 180f)
+            return true
+
+        //cyan
+        if(hue1 <= 240f && hue2 <= 240f)
+            return true
+
+        //blue
+        if(hue1 <= 300f && hue2 <= 300f)
+            return true
+
+        //magenta
+        if(hue1 > 300f && hue2 > 300f)
+            return true
+
+        return false
     }
 
 
