@@ -104,7 +104,6 @@ class GroupItemsActivity : AppCompatActivity() {
             }
         })
 
-        groupColors()
 
 
         btnItemAdd.setOnClickListener {
@@ -129,6 +128,13 @@ class GroupItemsActivity : AppCompatActivity() {
         var gc3 = mostPromColor(c3)
         var gc4 = mostPromColor(c4)
         var gc5 = mostPromColor(c5)
+
+        gref.child(groupID).child("c1").setValue(gc1)
+        gref.child(groupID).child("c2").setValue(gc2)
+        gref.child(groupID).child("c3").setValue(gc3)
+        gref.child(groupID).child("c4").setValue(gc4)
+        gref.child(groupID).child("c5").setValue(gc5)
+
 
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
