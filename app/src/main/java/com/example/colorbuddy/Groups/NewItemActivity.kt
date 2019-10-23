@@ -61,6 +61,10 @@ class NewItemActivity : AppCompatActivity() {
             addItem()
         }
 
+        btnRetry.setOnClickListener {
+            openCamera()
+        }
+
 
         //take picture
         if (checkSelfPermission(Manifest.permission.CAMERA)
