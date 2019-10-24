@@ -39,6 +39,7 @@ import kotlin.math.roundToInt
 class NewItemActivity : AppCompatActivity() {
 
     private lateinit var ref: DatabaseReference
+    private lateinit var gref: DatabaseReference
     private lateinit var groupName: String
     private lateinit var groupID: String
     private lateinit var groupItems: MutableList<Group>
@@ -47,6 +48,7 @@ class NewItemActivity : AppCompatActivity() {
     private lateinit var itemName: String
     private lateinit var itemDescript: String
     private lateinit var itemPalette: LinearLayout
+    private lateinit var groupHex: MutableList<String>
     private lateinit var c1: String
     private lateinit var c2: String
     private lateinit var c3: String
@@ -63,6 +65,34 @@ class NewItemActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_item)
 
         itemPalette = findViewById(R.id.newItemPalette)
+        gref = FirebaseDatabase.getInstance().getReference("Groups")
+        groupHex = mutableListOf()
+        groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+
+        //get color from group palette
+        gref.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            //problem area
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    for(i in p0.children){
+                        val group = i.getValue(Group::class.java)
+                        if(group?.groupName == groupName){
+                            //groupID = i.ref.key!!
+                            groupHex.add(group.c1)
+                            groupHex.add(group.c2)
+                            groupHex.add(group.c3)
+                            groupHex.add(group.c4)
+                            groupHex.add(group.c5)
+                        }
+
+                    }
+                }
+            }
+        })
 
         btnNewItem.setOnClickListener {
             addItem()
@@ -231,18 +261,18 @@ class NewItemActivity : AppCompatActivity() {
 
         //check for matches
 
-        //if(findMatches(pixel_list)){
+        if(findMatches(pixel_list)){
             //show matches were found
-            var test:String = findMatches(pixel_list)
+            var test = findMatches(pixel_list)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle(test)
+            builder.setTitle(test.toString())
             builder.setMessage("Congratulations, this item matches your colllection!")
             builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
                 dialog.cancel()
             })
             builder.show()
-        //}
-    /*
+        }
+
         else{
             val builder = AlertDialog.Builder(this)
             builder.setTitle("No Matches Found!")
@@ -252,7 +282,7 @@ class NewItemActivity : AppCompatActivity() {
             })
             builder.show()
         }
-*/
+
 
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -375,42 +405,16 @@ class NewItemActivity : AppCompatActivity() {
 
 
     //supposed to return Boolean -> returns String now to see what's in groupHex
-    private fun findMatches(pixelList: ArrayList<Int>) : String{
+    private fun findMatches(pixelList: ArrayList<Int>) : Boolean{
 
-        var groupHex = mutableListOf<String>()
         var HSV = FloatArray(3)
-        groupItems = mutableListOf()
-        var ref = FirebaseDatabase.getInstance().getReference("Groups")
-        groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+
         //for each color in the new item, compare to a color in group palette
 
 
-        //get color from group palette
-        ref.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
 
-            //problem area
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
-                    for(i in p0.children){
-                        val group = i.getValue(Group::class.java)
-                        if(group?.groupName == groupName){
-                            //groupID = i.ref.key!!
-                            groupHex.add(group.c1)
-                            groupHex.add(group.c2)
-                            groupHex.add(group.c3)
-                            groupHex.add(group.c4)
-                            groupHex.add(group.c5)
-                        }
 
-                    }
-                }
-            }
-        })
 
-        /*
             //for each new color, check against each prom. color in group
             for(i in 0..4) {
                 Color.colorToHSV(pixelList[i], HSV)
@@ -422,8 +426,8 @@ class NewItemActivity : AppCompatActivity() {
                 }
 
             }
-*/
-        return groupHex[1]
+
+        return false
 
     }
 }
