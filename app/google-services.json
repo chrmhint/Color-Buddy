@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "208718486108-h6ueuijouhqvjkv69phvuadddlnph70s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.colorbuddy",
+            "certificate_hash": "5cac2e075c8e3f5465baeec063fc8a11937d160f"
+          }
+        },
+        {
           "client_id": "208718486108-2korin7pd4mhvus3bgci8uunlpv69d5i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
