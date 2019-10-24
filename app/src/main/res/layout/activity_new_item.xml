@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/newItemDescription"
         app:layout_constraintStart_toStartOf="@+id/newItemDescription"
         app:layout_constraintTop_toBottomOf="@+id/newItemDescription" />
 
@@ -90,5 +89,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnNewItem"
+        app:layout_constraintEnd_toEndOf="@+id/newItemDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
