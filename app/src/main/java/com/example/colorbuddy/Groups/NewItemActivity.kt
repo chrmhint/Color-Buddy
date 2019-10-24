@@ -3,6 +3,7 @@ package com.example.colorbuddy.Groups
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,18 +17,22 @@ import android.provider.MediaStore.Images.Media.getBitmap
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.red
 import androidx.core.net.toUri
 import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Item
 import com.example.colorbuddy.ItemChecker
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.example.colorbuddy.classes.Group
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_item_checker.*
 import kotlinx.android.synthetic.main.activity_new_item.*
+import java.lang.Float.parseFloat
+import java.lang.Long.parseLong
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -35,6 +40,8 @@ class NewItemActivity : AppCompatActivity() {
 
     private lateinit var ref: DatabaseReference
     private lateinit var groupName: String
+    private lateinit var groupID: String
+    private lateinit var groupItems: MutableList<Group>
     private lateinit var itemId: String
     private lateinit var itemType: String
     private lateinit var itemName: String
@@ -164,7 +171,6 @@ class NewItemActivity : AppCompatActivity() {
         val startHeight = (bm.height - (bm.height * .8)).roundToInt()
         val endHeight = (bm.height - (bm.height * .2)).roundToInt()
 
-
         //collect pixel information and build map of color -> color appearances
         var pixels = mutableMapOf(0 to 0)
         var color = 0
@@ -219,6 +225,31 @@ class NewItemActivity : AppCompatActivity() {
             hexStrings[e] = "#" + hexStrings[e]
         }
 
+        //check for matches
+
+        //if(findMatches(pixel_list)){
+            //show matches were found
+            var test:String = findMatches(pixel_list)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(test)
+            builder.setMessage("Congratulations, this item matches your colllection!")
+            builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
+                dialog.cancel()
+            })
+            builder.show()
+        //}
+    /*
+        else{
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("No Matches Found!")
+            builder.setMessage("Sorry, no matches found.")
+            builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
+                dialog.cancel()
+            })
+            builder.show()
+        }
+*/
+
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -270,6 +301,44 @@ class NewItemActivity : AppCompatActivity() {
 
     }
 
+    //returns true if new color is within 45 degrees of compared color
+    //30 degrees because your eyes lie to you
+    //+15 degrees to account for picture and lighting quality
+    private fun isMonochromatic(newHue: Float, comparedHex: String): Boolean{
+
+        //convert hex string to ARGB
+        val comparedARGB = Color.toArgb(parseLong(comparedHex.substring(1)))
+
+        //convert to HSV -> hue is HSV[0]
+        val HSV = FloatArray(3)
+        Color.colorToHSV(comparedARGB, HSV)
+
+        if(abs(newHue-HSV[0]) <= 45)
+            return true
+
+        return false
+    }
+
+
+    //returns true if the color 180 degrees from newHue is within same hue slice as compared hue
+    private fun isComplimentary(newHue: Float, comparedHex: String): Boolean{
+
+        //convert hex string to ARGB
+        val comparedARGB = Color.toArgb(parseLong(comparedHex.substring(1)))
+
+        //convert to HSV -> hue is HSV[0]
+        val HSV = FloatArray(3)
+        Color.colorToHSV(comparedARGB, HSV)
+
+
+        if(newHue <= 180)
+            return isMonochromatic((newHue + 180), comparedHex)
+
+        return isMonochromatic(newHue - 180, comparedHex)
+
+    }
+
+
     //returns true if 2 hues are in the same color range
     private fun isSameHue(hue1: Float, hue2: Float): Boolean{
 
@@ -301,4 +370,55 @@ class NewItemActivity : AppCompatActivity() {
     }
 
 
+    //supposed to return Boolean -> returns String now to see what's in groupHex
+    private fun findMatches(pixelList: ArrayList<Int>) : String{
+
+        var groupHex = mutableListOf<String>()
+        var HSV = FloatArray(3)
+        groupItems = mutableListOf()
+        var ref = FirebaseDatabase.getInstance().getReference("Groups")
+        groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+        //for each color in the new item, compare to a color in group palette
+
+
+        //get color from group palette
+        ref.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists()){
+                    for(i in p0.children){
+                        val group = i.getValue(Group::class.java)
+                        if(group?.groupName == groupName){
+                            //groupID = i.ref.key!!
+                            groupHex.add(group.c1)
+                            groupHex.add(group.c2)
+                            groupHex.add(group.c3)
+                            groupHex.add(group.c4)
+                            groupHex.add(group.c5)
+                        }
+
+                    }
+                }
+            }
+        })
+
+        /*
+            //for each new color, check against each prom. color in group
+            for(i in 0..4) {
+                Color.colorToHSV(pixelList[i], HSV)
+
+                for(k in 1..5) {
+                    //check if any monochromatic/complimentary matches are likely
+                    if (isMonochromatic(HSV[i], groupHex[k]) || isComplimentary((HSV[i]), groupHex[k]))
+                        return true
+                }
+
+            }
+*/
+        return groupHex[1]
+
+    }
 }
