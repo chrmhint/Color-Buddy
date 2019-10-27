@@ -263,9 +263,9 @@ class NewItemActivity : AppCompatActivity() {
 
         if(findMatches(pixel_list)){
             //show matches were found
-            var test = findMatches(pixel_list)
+            //var test = findMatches(pixel_list)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle(test.toString())
+            builder.setTitle("Match found!")
             builder.setMessage("Congratulations, this item matches your colllection!")
             builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
                 dialog.cancel()
@@ -340,12 +340,16 @@ class NewItemActivity : AppCompatActivity() {
     //+15 degrees to account for picture and lighting quality
     private fun isMonochromatic(newHue: Float, comparedHex: String): Boolean{
 
-        //convert hex string to ARGB
-        val comparedARGB = Color.toArgb(parseLong(comparedHex.substring(1)))
+        //convert hex string to RGB
+        val hexCode = comparedHex.substring(1)
+        val R = hexCode.substring(0,1).toInt(16)
+        val G = hexCode.substring(2, 3).toInt(16)
+        val B = hexCode.substring((4)).toInt(16)
+        val comparedRGB = Color.rgb(R, G, B)
 
         //convert to HSV -> hue is HSV[0]
         val HSV = FloatArray(3)
-        Color.colorToHSV(comparedARGB, HSV)
+        Color.colorToHSV(comparedRGB, HSV)
 
         if(abs(newHue-HSV[0]) <= 45)
             return true
@@ -357,12 +361,18 @@ class NewItemActivity : AppCompatActivity() {
     //returns true if the color 180 degrees from newHue is within same hue slice as compared hue
     private fun isComplimentary(newHue: Float, comparedHex: String): Boolean{
 
-        //convert hex string to ARGB
-        val comparedARGB = Color.toArgb(parseLong(comparedHex.substring(1)))
+
+        //convert hex string to RGB
+        val hexCode = comparedHex.substring(1)
+        val R = hexCode.substring(0,1).toInt(16)
+        val G = hexCode.substring(2, 3).toInt(16)
+        val B = hexCode.substring((4)).toInt(16)
+
+        val comparedRGB = Color.rgb(R, G, B)
 
         //convert to HSV -> hue is HSV[0]
         val HSV = FloatArray(3)
-        Color.colorToHSV(comparedARGB, HSV)
+        Color.colorToHSV(comparedRGB, HSV)
 
 
         if(newHue <= 180)
@@ -408,20 +418,16 @@ class NewItemActivity : AppCompatActivity() {
     private fun findMatches(pixelList: ArrayList<Int>) : Boolean{
 
         var HSV = FloatArray(3)
-
-        //for each color in the new item, compare to a color in group palette
-
+        Color.colorToHSV(pixelList[0], HSV)
 
 
-
-
-            //for each new color, check against each prom. color in group
+           //for each new color, check against each prom. color in group
             for(i in 0..4) {
                 Color.colorToHSV(pixelList[i], HSV)
 
-                for(k in 1..5) {
+                for(k in 0..4) {
                     //check if any monochromatic/complimentary matches are likely
-                    if (isMonochromatic(HSV[i], groupHex[k]) || isComplimentary((HSV[i]), groupHex[k]))
+                    if (isMonochromatic(HSV[0], groupHex[k]) or isComplimentary((HSV[0]), groupHex[k]))
                         return true
                 }
 
