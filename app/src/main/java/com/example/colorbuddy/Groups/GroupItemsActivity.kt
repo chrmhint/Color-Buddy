@@ -14,6 +14,7 @@ import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
 import com.example.colorbuddy.adapters.ItemAdapter
 import com.example.colorbuddy.classes.Group
 import com.example.colorbuddy.classes.Item
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_group_items.*
 import kotlin.random.Random.Default.nextInt
@@ -31,6 +32,7 @@ class GroupItemsActivity : AppCompatActivity() {
     private lateinit var gref: DatabaseReference
     private lateinit var groupName: String
     private lateinit var groupID: String
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var c1: MutableList<String>
     private lateinit var c2: MutableList<String>
     private lateinit var c3: MutableList<String>
@@ -41,6 +43,8 @@ class GroupItemsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_items)
 
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
         paletteLayout = findViewById(R.id.paletteLayout)
         itemView = findViewById(R.id.recyclerView_items)
         ref = FirebaseDatabase.getInstance().getReference("Items")
@@ -65,7 +69,7 @@ class GroupItemsActivity : AppCompatActivity() {
                 if(p0.exists()){
                     for( i in p0.children){
                         val group = i.getValue(Group::class.java)
-                        if(group?.groupName == groupName){
+                        if(group?.groupName == groupName && group.userID == user?.uid){
                             groupID = group.groupId
                         }
                     }
@@ -85,7 +89,7 @@ class GroupItemsActivity : AppCompatActivity() {
                     items.clear()
                     for(i in p0.children){
                         val item = i.getValue(Item::class.java)
-                        if(item?.groupName == groupName){
+                        if(item?.groupName == groupName && item.userID == user?.uid){
                             items.add(item)
                         }
                     }

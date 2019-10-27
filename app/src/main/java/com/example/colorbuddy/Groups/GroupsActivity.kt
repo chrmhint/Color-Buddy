@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.GroupAdapter
 import com.example.colorbuddy.classes.Group
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_groups.*
 
 class GroupsActivity : AppCompatActivity() {
 
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var groupsView: RecyclerView
     private lateinit var groupName: TextView
     private lateinit var groupSwitch: Switch
@@ -27,7 +29,8 @@ class GroupsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
-
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
         ref = FirebaseDatabase.getInstance().getReference("Groups")
         groupsView = findViewById(R.id.recyclerView_groups)
         groupName = findViewById(R.id.groupTitle)
@@ -49,7 +52,7 @@ class GroupsActivity : AppCompatActivity() {
                     wardrobeList.clear()
                     for(g in p0.children){
                         val group = g.getValue(Group::class.java)
-                        if(group!!.groupType=="Wardrobe") {
+                        if(group!!.groupType=="Wardrobe" && group.userID == user?.uid) {
                             wardrobeList.add(group)
                         }
                         groupList.add(group)
@@ -82,10 +85,11 @@ class GroupsActivity : AppCompatActivity() {
     }
 
     private fun loadWardrobes(){
+        val user = mAuth.currentUser
         wardrobeList.clear()
         itemType = "Clothing"
         for(g in groupList){
-            if(g.groupType=="Wardrobe") {
+            if(g.groupType=="Wardrobe" && g.userID == user?.uid) {
                 wardrobeList.add(g)
             }
         }
@@ -94,10 +98,11 @@ class GroupsActivity : AppCompatActivity() {
     }
 
     private fun loadRooms(){
+        val user = mAuth.currentUser
         roomList.clear()
         itemType = "Item"
         for(g in groupList){
-            if(g.groupType=="Room") {
+            if(g.groupType=="Room" && g.userID == user?.uid) {
                 roomList.add(g)
             }
         }

@@ -24,6 +24,7 @@ import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Item
 import com.example.colorbuddy.ItemChecker
 import com.example.colorbuddy.classes.Group
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_item_checker.*
 import kotlinx.android.synthetic.main.activity_new_item.*
@@ -41,6 +42,7 @@ class NewItemActivity : AppCompatActivity() {
     private lateinit var ref: DatabaseReference
     private lateinit var gref: DatabaseReference
     private lateinit var groupName: String
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var groupID: String
     private lateinit var groupItems: MutableList<Group>
     private lateinit var itemId: String
@@ -127,6 +129,7 @@ class NewItemActivity : AppCompatActivity() {
         itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
         itemName = newItemName.text.toString()
         itemDescript = newItemDescription.text.toString()
+        val user = mAuth.currentUser
 
         c1 = hexStrings[0]
         c2 = hexStrings[1]
@@ -136,7 +139,7 @@ class NewItemActivity : AppCompatActivity() {
 
         ref = FirebaseDatabase.getInstance().getReference("Items")
         itemId = ref.push().key!!
-        val item = Item(groupName,itemId,itemType,itemName,itemDescript,c1,c2,c3,c4,c5)
+        val item = Item(user!!.uid,groupName,itemId,itemType,itemName,itemDescript,c1,c2,c3,c4,c5)
         ref.child(itemId).setValue(item)
 
         finish()

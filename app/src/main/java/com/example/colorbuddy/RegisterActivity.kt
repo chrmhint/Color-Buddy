@@ -28,6 +28,9 @@ class RegisterActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("Register", "createUserWithEmail:success")
                         val user = mAuth.currentUser
+                        val intent = Intent(this,LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
                     } else {
                         // If sign in fails, display a message to the user.
@@ -41,9 +44,5 @@ class RegisterActivity : AppCompatActivity() {
                 }
         }
 
-        hasAccountTextView.setOnClickListener {
-            val intent = Intent(this,LoginActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

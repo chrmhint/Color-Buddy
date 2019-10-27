@@ -14,7 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Groups.NewItemActivity" />
         <activity android:name=".Groups.DeleteItemsActivity" />
@@ -22,26 +28,8 @@
         <activity android:name=".Groups.AddGroupActivity" />
         <activity android:name=".Groups.GroupsActivity" />
         <activity android:name=".Inventory.TotalItemsActivity" />
-        <activity android:name=".wardrobe.DeleteClothesActivity" />
-        <activity android:name=".wardrobe.NewClothesActivity" />
-        <activity android:name=".wardrobe.WardrobeItemsActivity" />
-        <activity android:name=".room.NewItemActivity" />
-        <activity android:name=".room.RoomItemsActivity" />
         <activity android:name=".ItemChecker" />
-        <activity
-            android:name=".room.RoomListActivity"
-            android:label="Rooms" />
-        <activity
-            android:name=".wardrobe.WardrobeListActivity"
-            android:label="Wardrobes" />
-        <activity android:name=".room.ItemActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -40,13 +40,4 @@
         app:layout_constraintStart_toStartOf="@+id/registerPassword"
         app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
 
-    <TextView
-        android:id="@+id/hasAccountTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Already have an account?"
-        app:layout_constraintEnd_toEndOf="@+id/registerButton"
-        app:layout_constraintStart_toStartOf="@+id/registerButton"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

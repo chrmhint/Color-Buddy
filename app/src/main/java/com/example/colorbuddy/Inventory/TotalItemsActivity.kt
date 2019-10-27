@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.ItemAdapter
 import com.example.colorbuddy.classes.Item
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_total_items.*
 
@@ -19,11 +20,14 @@ class TotalItemsActivity : AppCompatActivity() {
     private lateinit var itemList: MutableList<Item>
     private lateinit var items: MutableList<Item>
     private lateinit var listSwitch: Switch
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_total_items)
 
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
         totalItemsView = recyclerView_total_items
         itemRef = FirebaseDatabase.getInstance().getReference("Items")
         items = mutableListOf()
@@ -44,8 +48,8 @@ class TotalItemsActivity : AppCompatActivity() {
                     items.clear()
                     for(w in p0.children){
                         val item = w.getValue(Item::class.java)
-                        if(item!!.itemType == "Clothes") {
-                            clothesList.add(item!!)
+                        if(item!!.itemType == "Clothes"  && item.userID == user?.uid) {
+                            clothesList.add(item)
                         }
                         items.add(item)
                     }
@@ -69,10 +73,11 @@ class TotalItemsActivity : AppCompatActivity() {
     }
 
     private fun loadClothes() {
+        val user = mAuth.currentUser
         titleTextView.text = getString(R.string.Clothes)
         clothesList.clear()
         for(g in items){
-            if(g.itemType=="Clothing") {
+            if(g.itemType=="Clothing" && g.userID == user?.uid) {
                 clothesList.add(g)
             }
         }
@@ -81,10 +86,11 @@ class TotalItemsActivity : AppCompatActivity() {
     }
 
     private fun loadItems(){
+        val user = mAuth.currentUser
         titleTextView.text = getString(R.string.Items)
         itemList.clear()
         for(g in items){
-            if(g.itemType=="Item") {
+            if(g.itemType=="Item" && g.userID == user?.uid) {
                 itemList.add(g)
             }
         }
