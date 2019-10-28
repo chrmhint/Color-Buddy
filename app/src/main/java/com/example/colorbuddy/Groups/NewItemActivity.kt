@@ -65,6 +65,8 @@ class NewItemActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_item)
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
 
         itemPalette = findViewById(R.id.newItemPalette)
         gref = FirebaseDatabase.getInstance().getReference("Groups")
@@ -72,17 +74,17 @@ class NewItemActivity : AppCompatActivity() {
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
 
         //get color from group palette
-        gref.addValueEventListener(object: ValueEventListener{
+        gref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             //problem area
             override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
-                    for(i in p0.children){
+                if (p0.exists()) {
+                    for (i in p0.children) {
                         val group = i.getValue(Group::class.java)
-                        if(group?.groupName == groupName){
+                        if (group?.groupName == groupName && group.userID == user!!.uid) {
                             //groupID = i.ref.key!!
                             groupHex.add(group.c1)
                             groupHex.add(group.c2)
@@ -124,11 +126,12 @@ class NewItemActivity : AppCompatActivity() {
         }
     }
 
-    private fun addItem(){
+    private fun addItem() {
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
         itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
         itemName = newItemName.text.toString()
         itemDescript = newItemDescription.text.toString()
+        mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
 
         c1 = hexStrings[0]
@@ -139,7 +142,19 @@ class NewItemActivity : AppCompatActivity() {
 
         ref = FirebaseDatabase.getInstance().getReference("Items")
         itemId = ref.push().key!!
-        val item = Item(user!!.uid,groupName,itemId,itemType,itemName,itemDescript,c1,c2,c3,c4,c5)
+        val item = Item(
+            user!!.uid,
+            groupName,
+            itemId,
+            itemType,
+            itemName,
+            itemDescript,
+            c1,
+            c2,
+            c3,
+            c4,
+            c5
+        )
         ref.child(itemId).setValue(item)
 
         finish()
@@ -236,8 +251,7 @@ class NewItemActivity : AppCompatActivity() {
                 if (pixels.containsKey(post)) {
                     val value: Int = pixels.getValue(post)
                     pixels.replace(post, value, value + 1)
-                }
-                else
+                } else
                     pixels[post] = 1
 
             }
@@ -250,7 +264,7 @@ class NewItemActivity : AppCompatActivity() {
 
 
         //get hex strings
-        for(e in 0..4){
+        for (e in 0..4) {
             hexStrings[e] = Integer.toHexString(pixel_list[e])
 
             hexStrings[e] = hexStrings[e].toUpperCase(Locale.US)
@@ -264,23 +278,21 @@ class NewItemActivity : AppCompatActivity() {
 
         //check for matches
 
-        if(findMatches(pixel_list)){
+        if (findMatches(pixel_list)) {
             //show matches were found
             //var test = findMatches(pixel_list)
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Match found!")
             builder.setMessage("Congratulations, this item matches your colllection!")
-            builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
+            builder.setNeutralButton("OK", DialogInterface.OnClickListener { dialog, id ->
                 dialog.cancel()
             })
             builder.show()
-        }
-
-        else{
+        } else {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("No Matches Found!")
             builder.setMessage("Sorry, no matches found.")
-            builder.setNeutralButton("OK", DialogInterface.OnClickListener{ dialog, id ->
+            builder.setNeutralButton("OK", DialogInterface.OnClickListener { dialog, id ->
                 dialog.cancel()
             })
             builder.show()
@@ -309,29 +321,29 @@ class NewItemActivity : AppCompatActivity() {
 
     //round each pixel
     private fun posterizePixel(p: Int): Int {
-        if( p < 20)
+        if (p < 20)
             return 0
         if (p < 40)
             return 25
-        if(p < 60)
+        if (p < 60)
             return 40
         if (p < 80)
             return 60
-        if(p < 100)
+        if (p < 100)
             return 80
         if (p < 120)
             return 100
-        if(p < 140)
+        if (p < 140)
             return 120
         if (p < 160)
             return 140
-        if(p < 180)
+        if (p < 180)
             return 160
-        if(p < 200)
+        if (p < 200)
             return 180
-        if(p < 220)
+        if (p < 220)
             return 200
-        if(p < 240)
+        if (p < 240)
             return 220
 
         return 255
@@ -341,76 +353,80 @@ class NewItemActivity : AppCompatActivity() {
     //returns true if new color is within 45 degrees of compared color
     //30 degrees because your eyes lie to you
     //+15 degrees to account for picture and lighting quality
-    private fun isMonochromatic(newHue: Float, comparedHex: String): Boolean{
+    private fun isMonochromatic(newHue: Float, comparedHex: String): Boolean {
 
-        //convert hex string to RGB
-        val hexCode = comparedHex.substring(1)
-        val R = hexCode.substring(0,1).toInt(16)
-        val G = hexCode.substring(2, 3).toInt(16)
-        val B = hexCode.substring((4)).toInt(16)
-        val comparedRGB = Color.rgb(R, G, B)
+        if(comparedHex.isNotEmpty()) {
+            //convert hex string to RGB
+            val hexCode = comparedHex.substring(1)
+            val R = hexCode.substring(0, 1).toInt(16)
+            val G = hexCode.substring(2, 3).toInt(16)
+            val B = hexCode.substring((4)).toInt(16)
+            val comparedRGB = Color.rgb(R, G, B)
 
-        //convert to HSV -> hue is HSV[0]
-        val HSV = FloatArray(3)
-        Color.colorToHSV(comparedRGB, HSV)
+            //convert to HSV -> hue is HSV[0]
+            val HSV = FloatArray(3)
+            Color.colorToHSV(comparedRGB, HSV)
 
-        if(abs(newHue-HSV[0]) <= 45)
-            return true
-
+            if (abs(newHue - HSV[0]) <= 45)
+                return true
+        }
         return false
+
     }
 
 
     //returns true if the color 180 degrees from newHue is within same hue slice as compared hue
-    private fun isComplimentary(newHue: Float, comparedHex: String): Boolean{
+    private fun isComplimentary(newHue: Float, comparedHex: String): Boolean {
 
 
-        //convert hex string to RGB
-        val hexCode = comparedHex.substring(1)
-        val R = hexCode.substring(0,1).toInt(16)
-        val G = hexCode.substring(2, 3).toInt(16)
-        val B = hexCode.substring((4)).toInt(16)
+        if(comparedHex.isNotEmpty()) {
+            //convert hex string to RGB
+            val hexCode = comparedHex.substring(1)
+            val R = hexCode.substring(0, 1).toInt(16)
+            val G = hexCode.substring(2, 3).toInt(16)
+            val B = hexCode.substring((4)).toInt(16)
 
-        val comparedRGB = Color.rgb(R, G, B)
+            val comparedRGB = Color.rgb(R, G, B)
 
-        //convert to HSV -> hue is HSV[0]
-        val HSV = FloatArray(3)
-        Color.colorToHSV(comparedRGB, HSV)
+            //convert to HSV -> hue is HSV[0]
+            val HSV = FloatArray(3)
+            Color.colorToHSV(comparedRGB, HSV)
 
 
-        if(newHue <= 180)
-            return isMonochromatic((newHue + 180), comparedHex)
-
+            if (newHue <= 180)
+                return isMonochromatic((newHue + 180), comparedHex)
+        }
         return isMonochromatic(newHue - 180, comparedHex)
+
 
     }
 
 
     //returns true if 2 hues are in the same color range
-    private fun isSameHue(hue1: Float, hue2: Float): Boolean{
+    private fun isSameHue(hue1: Float, hue2: Float): Boolean {
 
         //red
-        if(hue1 <= 60f && hue2 <= 60f)
+        if (hue1 <= 60f && hue2 <= 60f)
             return true
 
         //yellow
-        if(hue1 <= 120f && hue2 <= 120f)
+        if (hue1 <= 120f && hue2 <= 120f)
             return true
 
         //green
-        if(hue1 <= 180f && hue2 <= 180f)
+        if (hue1 <= 180f && hue2 <= 180f)
             return true
 
         //cyan
-        if(hue1 <= 240f && hue2 <= 240f)
+        if (hue1 <= 240f && hue2 <= 240f)
             return true
 
         //blue
-        if(hue1 <= 300f && hue2 <= 300f)
+        if (hue1 <= 300f && hue2 <= 300f)
             return true
 
         //magenta
-        if(hue1 > 300f && hue2 > 300f)
+        if (hue1 > 300f && hue2 > 300f)
             return true
 
         return false
@@ -418,25 +434,31 @@ class NewItemActivity : AppCompatActivity() {
 
 
     //supposed to return Boolean -> returns String now to see what's in groupHex
-    private fun findMatches(pixelList: ArrayList<Int>) : Boolean{
+    private fun findMatches(pixelList: ArrayList<Int>): Boolean {
 
-        var HSV = FloatArray(3)
-        Color.colorToHSV(pixelList[0], HSV)
+        if (groupHex.isNotEmpty()) {
+            var HSV = FloatArray(3)
+            Color.colorToHSV(pixelList[0], HSV)
 
 
-           //for each new color, check against each prom. color in group
-            for(i in 0..4) {
+            //for each new color, check against each prom. color in group
+            for (i in 0..4) {
                 Color.colorToHSV(pixelList[i], HSV)
 
-                for(k in 0..4) {
+                for (k in 0..4) {
                     //check if any monochromatic/complimentary matches are likely
-                    if (isMonochromatic(HSV[0], groupHex[k]) or isComplimentary((HSV[0]), groupHex[k]))
+                    if (isMonochromatic(HSV[0], groupHex[k]) or isComplimentary(
+                            (HSV[0]),
+                            groupHex[k]
+                        )
+                    )
                         return true
                 }
 
             }
+        }
 
         return false
-
     }
+
 }
