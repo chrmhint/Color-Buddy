@@ -357,15 +357,9 @@ class NewItemActivity : AppCompatActivity() {
 
         if(comparedHex.isNotEmpty()) {
             //convert hex string to RGB
-            val hexCode = comparedHex.substring(1)
-            val R = hexCode.substring(0, 1).toInt(16)
-            val G = hexCode.substring(2, 3).toInt(16)
-            val B = hexCode.substring((4)).toInt(16)
-            val comparedRGB = Color.rgb(R, G, B)
-
             //convert to HSV -> hue is HSV[0]
             val HSV = FloatArray(3)
-            Color.colorToHSV(comparedRGB, HSV)
+            Color.colorToHSV(Color.parseColor(comparedHex), HSV)
 
             if (abs(newHue - HSV[0]) <= 45)
                 return true
@@ -380,17 +374,9 @@ class NewItemActivity : AppCompatActivity() {
 
 
         if(comparedHex.isNotEmpty()) {
-            //convert hex string to RGB
-            val hexCode = comparedHex.substring(1)
-            val R = hexCode.substring(0, 1).toInt(16)
-            val G = hexCode.substring(2, 3).toInt(16)
-            val B = hexCode.substring((4)).toInt(16)
-
-            val comparedRGB = Color.rgb(R, G, B)
-
             //convert to HSV -> hue is HSV[0]
             val HSV = FloatArray(3)
-            Color.colorToHSV(comparedRGB, HSV)
+            Color.colorToHSV(Color.parseColor(comparedHex), HSV)
 
 
             if (newHue <= 180)
