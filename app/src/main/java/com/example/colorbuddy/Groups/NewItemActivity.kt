@@ -278,17 +278,18 @@ class NewItemActivity : AppCompatActivity() {
 
         //check for matches
 
-        if (findMatches(pixel_list)) {
+        val matchesFound = findMatches(pixel_list)
             //show matches were found
             //var test = findMatches(pixel_list)
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Match found!")
-            builder.setMessage("Congratulations, this item matches your colllection!")
+            builder.setTitle("Match Report")
+            builder.setMessage(matchesFound)
             builder.setNeutralButton("OK", DialogInterface.OnClickListener { dialog, id ->
                 dialog.cancel()
             })
             builder.show()
-        } else {
+
+        /* else {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("No Matches Found!")
             builder.setMessage("Sorry, no matches found.")
@@ -298,6 +299,8 @@ class NewItemActivity : AppCompatActivity() {
             builder.show()
         }
 
+
+         */
 
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -361,7 +364,7 @@ class NewItemActivity : AppCompatActivity() {
             val HSV = FloatArray(3)
             Color.colorToHSV(Color.parseColor(comparedHex), HSV)
 
-            if (abs(newHue - HSV[0]) <= 45)
+            if (abs(newHue - HSV[0]) <= 30)
                 return true
         }
         return false
@@ -378,16 +381,79 @@ class NewItemActivity : AppCompatActivity() {
             val HSV = FloatArray(3)
             Color.colorToHSV(Color.parseColor(comparedHex), HSV)
 
-
             if (newHue <= 180)
                 return isMonochromatic((newHue + 180), comparedHex)
+
+
+            return isMonochromatic(newHue - 180, comparedHex)
+
         }
-        return isMonochromatic(newHue - 180, comparedHex)
-
-
+        return false
     }
 
 
+    //
+    private fun isAnalogous(newHue: Float): Boolean {
+
+        //check if color +30 exists && -30 exists (maybe 45 - 50)
+        var firstCheck = false
+        val HSV = FloatArray(3)
+        var above = false
+        var below = false
+        var nextFound: Boolean
+
+
+        //check if newHue is the middle of the scheme
+        if(groupHex[0].isNotEmpty()) {
+            for (hex in groupHex) {
+                Color.colorToHSV(Color.parseColor(hex), HSV)
+
+                if (!above)
+                    if (newHue + 30 <= 360) {
+                        above = isMonochromatic(newHue + 30, hex)
+                    } else
+                        above = isMonochromatic((newHue + 30) - 360, hex)
+
+                if (!below)
+                    if (newHue - 30 >= 0)
+                        below = isMonochromatic(newHue - 30, hex)
+                    else
+                        below = isMonochromatic((newHue - 30) + 360, hex)
+
+                if (above && below)
+                    return true
+
+
+            }
+
+            //is newHue the first color?
+            if (above && !below) {
+                for (hex in groupHex) {
+                    nextFound = isMonochromatic(newHue + 60, hex)
+                    if (nextFound)
+                        return true
+
+                }
+
+            }
+
+            //is newHue the last color?
+            if (!above && below) {
+                for (hex in groupHex) {
+                    nextFound = isMonochromatic(newHue - 60, hex)
+                    if (nextFound)
+                        return true
+                }
+            }
+
+        }
+        return false
+    }
+
+    private fun isTriadic(newHue: Float, comparedHex: String, count: Int): Int {
+
+        return 0
+    }
     //returns true if 2 hues are in the same color range
     private fun isSameHue(hue1: Float, hue2: Float): Boolean {
 
@@ -420,31 +486,46 @@ class NewItemActivity : AppCompatActivity() {
 
 
     //supposed to return Boolean -> returns String now to see what's in groupHex
-    private fun findMatches(pixelList: ArrayList<Int>): Boolean {
+    private fun findMatches(pixelList: ArrayList<Int>): String {
+
+        var matchString = ""
+        var matchesFound = false
+        var monoFound = false
+        var compliFound = false
+        var anaFound = false
+
+        var HSV = FloatArray(3)
+        Color.colorToHSV(pixelList[0], HSV)
 
         if (groupHex.isNotEmpty()) {
-            var HSV = FloatArray(3)
-            Color.colorToHSV(pixelList[0], HSV)
+            //is it necessary to check each new color?
+            //shouldn't the most prominent color in the new palette be the only relevant info?
 
+            //for each new palette, check against each prom. color in group
+            for (k in 0..4) {
+                //check if any monochromatic/complimentary matches are likely
+                if (isMonochromatic(HSV[0], groupHex[k]) && !monoFound) {
+                    monoFound = true
+                    matchString += "Monochromatic "
+                }
 
-            //for each new color, check against each prom. color in group
-            for (i in 0..4) {
-                Color.colorToHSV(pixelList[i], HSV)
-
-                for (k in 0..4) {
-                    //check if any monochromatic/complimentary matches are likely
-                    if (isMonochromatic(HSV[0], groupHex[k]) or isComplimentary(
-                            (HSV[0]),
-                            groupHex[k]
-                        )
-                    )
-                        return true
+                if (isComplimentary(HSV[0], groupHex[k]) && !compliFound) {
+                    compliFound = true
+                    matchString += "Complimentary "
                 }
 
             }
-        }
 
-        return false
+            if (isAnalogous(HSV[0])) {
+                matchString += "Analogous"
+                anaFound = true
+            }
+
+        }
+        if(!monoFound && !compliFound && !anaFound)
+            return "No matches found."
+
+        return matchString
     }
 
 }
