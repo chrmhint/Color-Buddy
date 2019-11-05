@@ -79,7 +79,7 @@ class NewItemActivity : AppCompatActivity() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            //problem area
+            //show items
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     for (i in p0.children) {
@@ -218,10 +218,10 @@ class NewItemActivity : AppCompatActivity() {
     fun readImage(bm: Bitmap) {
 
         //bounds of color search
-        val startWidth = (bm.width - (bm.width * .8)).roundToInt()
-        val endWidth = (bm.width - (bm.width * .2)).roundToInt()
-        val startHeight = (bm.height - (bm.height * .8)).roundToInt()
-        val endHeight = (bm.height - (bm.height * .2)).roundToInt()
+        val startWidth = (bm.width - (bm.width * .9)).roundToInt()
+        val endWidth = (bm.width - (bm.width * .1)).roundToInt()
+        val startHeight = (bm.height - (bm.height * .9)).roundToInt()
+        val endHeight = (bm.height - (bm.height * .1)).roundToInt()
 
         //collect pixel information and build map of color -> color appearances
         var pixels = mutableMapOf(0 to 0)
@@ -245,7 +245,6 @@ class NewItemActivity : AppCompatActivity() {
                 B = posterizePixel(B)
 
                 var post = Color.argb(A, R, G, B)
-                var oldKey = 0
 
                 //find prominent colors
                 if (pixels.containsKey(post)) {
@@ -262,6 +261,8 @@ class NewItemActivity : AppCompatActivity() {
         val filtered_pixels = pixels.filterValues { it >= 10 }
         val pixel_list = ArrayList(filtered_pixels.keys)
 
+        //TODO: remove similar colors
+        //in top five colors, if two colors are monochromatic, remove the 2nd most prominent
 
         //get hex strings
         for (e in 0..4) {
@@ -277,10 +278,8 @@ class NewItemActivity : AppCompatActivity() {
         }
 
         //check for matches
-
         val matchesFound = findMatches(pixel_list)
             //show matches were found
-            //var test = findMatches(pixel_list)
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Match Report")
             builder.setMessage(matchesFound)
@@ -289,18 +288,6 @@ class NewItemActivity : AppCompatActivity() {
             })
             builder.show()
 
-        /* else {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("No Matches Found!")
-            builder.setMessage("Sorry, no matches found.")
-            builder.setNeutralButton("OK", DialogInterface.OnClickListener { dialog, id ->
-                dialog.cancel()
-            })
-            builder.show()
-        }
-
-
-         */
 
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -371,7 +358,6 @@ class NewItemActivity : AppCompatActivity() {
 
     }
 
-
     //returns true if the color 180 degrees from newHue is within same hue slice as compared hue
     private fun isComplimentary(newHue: Float, comparedHex: String): Boolean {
 
@@ -391,8 +377,7 @@ class NewItemActivity : AppCompatActivity() {
         return false
     }
 
-
-    //
+    //returns true if two colors analogous to newHue are found
     private fun isAnalogous(newHue: Float): Boolean {
 
         //check if color +30 exists && -30 exists (maybe 45 - 50)
@@ -429,7 +414,11 @@ class NewItemActivity : AppCompatActivity() {
             //is newHue the first color?
             if (above && !below) {
                 for (hex in groupHex) {
-                    nextFound = isMonochromatic(newHue + 60, hex)
+                    if(newHue+60 <= 360)
+                        nextFound = isMonochromatic(newHue + 60, hex)
+                    else
+                        nextFound = isMonochromatic((newHue+60-360), hex)
+
                     if (nextFound)
                         return true
 
@@ -440,7 +429,10 @@ class NewItemActivity : AppCompatActivity() {
             //is newHue the last color?
             if (!above && below) {
                 for (hex in groupHex) {
-                    nextFound = isMonochromatic(newHue - 60, hex)
+                    if(newHue - 60 >= 0)
+                        nextFound = isMonochromatic(newHue - 60, hex)
+                    else
+                        nextFound = isMonochromatic((newHue - 60 + 360), hex)
                     if (nextFound)
                         return true
                 }
@@ -450,10 +442,44 @@ class NewItemActivity : AppCompatActivity() {
         return false
     }
 
-    private fun isTriadic(newHue: Float, comparedHex: String, count: Int): Int {
+    //returns true if two colors triadic to newHue are found
+    private fun isTriadic(newHue: Float): Boolean {
 
-        return 0
+        val HSV = FloatArray(3)
+        var above = false
+        var below = false
+        var nextFound: Boolean
+
+
+        //check if for hues 120 degrees above and below newHue
+        if(groupHex[0].isNotEmpty()) {
+            for (hex in groupHex) {
+                Color.colorToHSV(Color.parseColor(hex), HSV)
+
+                if (!above)
+                    if (newHue + 120 <= 360) {
+                        above = isMonochromatic(newHue + 120, hex)
+                    } else
+                        above = isMonochromatic((newHue + 120) - 360, hex)
+
+                if (!below)
+                    if (newHue - 120 >= 0)
+                        below = isMonochromatic(newHue - 120, hex)
+                    else
+                        below = isMonochromatic((newHue - 120) + 360, hex)
+
+                if (above && below)
+                    return true
+
+
+            }
+
+
+        }
+        //if both were not found, return false
+        return false
     }
+
     //returns true if 2 hues are in the same color range
     private fun isSameHue(hue1: Float, hue2: Float): Boolean {
 
@@ -489,10 +515,8 @@ class NewItemActivity : AppCompatActivity() {
     private fun findMatches(pixelList: ArrayList<Int>): String {
 
         var matchString = ""
-        var matchesFound = false
         var monoFound = false
         var compliFound = false
-        var anaFound = false
 
         var HSV = FloatArray(3)
         Color.colorToHSV(pixelList[0], HSV)
@@ -517,12 +541,15 @@ class NewItemActivity : AppCompatActivity() {
             }
 
             if (isAnalogous(HSV[0])) {
-                matchString += "Analogous"
-                anaFound = true
+                matchString += "Analogous "
+            }
+
+            if(isTriadic(HSV[0])){
+                matchString += "Triadic"
             }
 
         }
-        if(!monoFound && !compliFound && !anaFound)
+        if(matchString == "")
             return "No matches found."
 
         return matchString
