@@ -26,6 +26,7 @@ class DeleteItemsActivity : AppCompatActivity() {
     private lateinit var groupRef: DatabaseReference
     private lateinit var groupName: String
     private lateinit var groupId: String
+    private lateinit var selected: MutableList<Boolean>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +38,9 @@ class DeleteItemsActivity : AppCompatActivity() {
         items = mutableListOf()
         itemsView = findViewById(R.id.recyclerView_delete_items)
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
+        selected = mutableListOf()
+
+
 
         this.title = groupName
 
@@ -66,10 +70,13 @@ class DeleteItemsActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists()){
                     items.clear()
+                    var j = 0
                     for(i in p0.children){
                         val item = i.getValue(Item::class.java)
                         if(item?.groupName == groupName){
                             items.add(item)
+                            selected.add(false)
+                            j++
                         }
                     }
                     itemsView.layoutManager = LinearLayoutManager(applicationContext)
@@ -105,10 +112,15 @@ class DeleteItemsActivity : AppCompatActivity() {
         val itemsToDelete = mutableListOf<Item>()
         var i = 0
         for (item in itemsView.children){
-            if(item.checkBox.isChecked){
-                itemsToDelete.add(items[i])
+            if(item.checkBox.isActivated){
+                selected[i] = true
             }
             i++
+        }
+        for( i in 0..items.size-1){
+            if(selected[i] == true) {
+                itemsToDelete.add(items[i])
+            }
         }
         for(item in itemsToDelete){
             val dref = FirebaseDatabase.getInstance().getReference("Items").child(item.itemId)

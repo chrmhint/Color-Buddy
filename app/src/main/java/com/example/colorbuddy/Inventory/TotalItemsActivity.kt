@@ -48,7 +48,7 @@ class TotalItemsActivity : AppCompatActivity() {
                     items.clear()
                     for(w in p0.children){
                         val item = w.getValue(Item::class.java)
-                        if(item!!.itemType == "Clothes"  && item.userID == user?.uid) {
+                        if(item!!.itemType == "Clothing"  && item.userID == user?.uid) {
                             clothesList.add(item)
                         }
                         items.add(item)
@@ -59,7 +59,6 @@ class TotalItemsActivity : AppCompatActivity() {
             }
         })
 
-        loadClothes()
 
         listSwitch.setOnCheckedChangeListener { _, _ ->
             if(listSwitch.isChecked){
@@ -70,6 +69,11 @@ class TotalItemsActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadClothes()
     }
 
     private fun loadClothes() {

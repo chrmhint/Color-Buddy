@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         signoutButton.setOnClickListener{
             signout()
         }
+        itemCheckButton.setOnClickListener {
+            val intent = Intent(this, ItemChecker::class.java)
+            startActivity(intent)
+        }
 
 
 

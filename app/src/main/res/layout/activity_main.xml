@@ -26,7 +26,7 @@
         app:layout_constraintStart_toEndOf="@+id/itemButton" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/itemCheckButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -50,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Signout"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button"
+        app:layout_constraintBaseline_toBaselineOf="@+id/itemCheckButton"
         app:layout_constraintEnd_toEndOf="@+id/roomsButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/itemCheckButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
