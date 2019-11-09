@@ -6,15 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <github.hellocsl.cursorwheel.CursorWheelLayout
+        android:id="@+id/ColorWheel"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="32dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:wheelBackgroundColor="#ffffff"
+        app:wheelCursorColor="#000000"
+        app:wheelItemRotateMode="none"
+        app:wheelSelectedAngle="270">
+
+    </github.hellocsl.cursorwheel.CursorWheelLayout>
+
     <Button
         android:id="@+id/itemButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="Inventory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/ColorWheel" />
 
     <Button
         android:id="@+id/roomsButton"
@@ -34,16 +52,6 @@
         app:layout_constraintEnd_toEndOf="@+id/itemButton"
         app:layout_constraintStart_toStartOf="@+id/itemButton"
         app:layout_constraintTop_toBottomOf="@+id/itemButton" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="468dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/colorwheel" />
 
     <Button
         android:id="@+id/signoutButton"

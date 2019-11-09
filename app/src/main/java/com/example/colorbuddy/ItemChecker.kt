@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -25,7 +26,6 @@ import com.example.colorbuddy.Groups.NewItemActivity
 import kotlin.math.roundToInt
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
-import com.example.colorbuddy.adapters.GroupCheckAdapter
 import com.example.colorbuddy.classes.Group
 import com.example.colorbuddy.classes.Item
 import com.google.firebase.auth.FirebaseAuth
@@ -47,18 +47,16 @@ const val EXTRA_IMG_SRC:String = "EXTRA_IMG_SRC"
 //on confirm, move to newItemActivity with hexString info
 class ItemChecker : AppCompatActivity() {
 
-
     private val IMAGE_CAPTURE_CODE = 1001
     val PERMISSION_CODE = 1000
     var imageSRC: Uri? = null
     var hexStrings = arrayListOf<String>("#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF")
-    private lateinit var groupSpinner: Spinner
     private lateinit var ref: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
     private lateinit var groups: MutableList<Group>
-    private lateinit var selectedGroup: Group
     private lateinit var groupHex: MutableList<String>
-    private lateinit var groupCheckRecyclerView: RecyclerView
+    private lateinit var groupNames: MutableList<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +66,11 @@ class ItemChecker : AppCompatActivity() {
         val itemType = intent.getStringExtra("EXTRA_ITEM_TYPE")
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
-        var groupNames = mutableListOf<String>()
+        groupNames = mutableListOf()
         groups = mutableListOf()
         groupHex = mutableListOf()
         ref = FirebaseDatabase.getInstance().getReference("Groups")
-        groupCheckRecyclerView = findViewById(R.id.groupCheckRecyclerView)
+
 
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -87,13 +85,10 @@ class ItemChecker : AppCompatActivity() {
                             groups.add(group)
                             groupNames.add(group.groupName)
                         }
-                        groupCheckRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                        groupCheckRecyclerView.adapter = GroupCheckAdapter(groups)
                     }
                 }
             }
         })
-
 
         //take picture
         if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -128,6 +123,31 @@ class ItemChecker : AppCompatActivity() {
             finish()
         }
 
+
+    }
+
+    private fun changeGroupPalette(name: String){
+        for(g in groups){
+            if(g.groupName == name){
+
+                val param = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    1.0f
+                )
+
+                groupC1.setBackgroundColor(Color.parseColor(g.c1))
+                groupC1.layoutParams = param
+                groupC2.setBackgroundColor(Color.parseColor(g.c2))
+                groupC2.layoutParams = param
+                groupC3.setBackgroundColor(Color.parseColor(g.c3))
+                groupC3.layoutParams = param
+                groupC4.setBackgroundColor(Color.parseColor(g.c4))
+                groupC4.layoutParams = param
+                groupC5.setBackgroundColor(Color.parseColor(g.c5))
+                groupC5.layoutParams = param
+            }
+        }
 
     }
 
