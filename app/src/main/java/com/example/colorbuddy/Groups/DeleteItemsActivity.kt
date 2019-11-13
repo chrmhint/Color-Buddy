@@ -13,6 +13,7 @@ import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.DeleteItemAdapter
 import com.example.colorbuddy.classes.Group
 import com.example.colorbuddy.classes.Item
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_delete_items.*
 import kotlinx.android.synthetic.main.item_row_delete.view.*
@@ -27,6 +28,7 @@ class DeleteItemsActivity : AppCompatActivity() {
     private lateinit var groupName: String
     private lateinit var groupId: String
     private lateinit var selected: MutableList<Boolean>
+    private lateinit var mAuth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,9 @@ class DeleteItemsActivity : AppCompatActivity() {
         itemsView = findViewById(R.id.recyclerView_delete_items)
         groupName = intent.getStringExtra("EXTRA_GROUP_NAME")
         selected = mutableListOf()
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
+
 
 
 
@@ -53,7 +58,7 @@ class DeleteItemsActivity : AppCompatActivity() {
                 if(p0.exists()){
                     for(i in p0.children){
                         val item = i.getValue(Group::class.java)
-                        if(item?.groupName == groupName){
+                        if(item?.groupName == groupName && item.userID == user?.uid){
                             groupId = i.ref.key!!
                         }
 
@@ -112,17 +117,15 @@ class DeleteItemsActivity : AppCompatActivity() {
         val itemsToDelete = mutableListOf<Item>()
         var i = 0
         for (item in itemsView.children){
-            if(item.checkBox.isActivated){
-                itemsToDelete.add(item)
+            if(item.checkBox.isChecked){
+                itemsToDelete.add(items[i])
             }
             i++
         }
-
         for(item in itemsToDelete){
             val dref = FirebaseDatabase.getInstance().getReference("Items").child(item.itemId)
             dref.removeValue()
         }
-
         finish()
     }
 
