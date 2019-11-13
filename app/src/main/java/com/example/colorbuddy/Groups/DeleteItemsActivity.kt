@@ -113,15 +113,11 @@ class DeleteItemsActivity : AppCompatActivity() {
         var i = 0
         for (item in itemsView.children){
             if(item.checkBox.isActivated){
-                selected[i] = true
+                itemsToDelete.add(item)
             }
             i++
         }
-        for( i in 0..items.size-1){
-            if(selected[i] == true) {
-                itemsToDelete.add(items[i])
-            }
-        }
+
         for(item in itemsToDelete){
             val dref = FirebaseDatabase.getInstance().getReference("Items").child(item.itemId)
             dref.removeValue()
