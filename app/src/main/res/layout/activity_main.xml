@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <github.hellocsl.cursorwheel.CursorWheelLayout
@@ -12,13 +13,12 @@
         android:layout_height="400dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="32dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:wheelBackgroundColor="#ffffff"
-        app:wheelCursorColor="#000000"
+        app:wheelCursorColor="#FFFFFF"
         app:wheelItemRotateMode="none"
         app:wheelSelectedAngle="270">
 
@@ -28,39 +28,28 @@
         android:id="@+id/itemButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="16dp"
         android:text="Inventory"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/roomsButton"
         app:layout_constraintTop_toBottomOf="@+id/ColorWheel" />
 
     <Button
         android:id="@+id/roomsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
         android:text="Groups"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemButton"
-        app:layout_constraintStart_toEndOf="@+id/itemButton" />
-
-    <Button
-        android:id="@+id/itemCheckButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Item Check"
-        app:layout_constraintEnd_toEndOf="@+id/itemButton"
-        app:layout_constraintStart_toStartOf="@+id/itemButton"
-        app:layout_constraintTop_toBottomOf="@+id/itemButton" />
+        app:layout_constraintEnd_toEndOf="@+id/ColorWheel"
+        app:layout_constraintStart_toStartOf="@+id/ColorWheel" />
 
     <Button
         android:id="@+id/signoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="Signout"
-        app:layout_constraintBaseline_toBaselineOf="@+id/itemCheckButton"
-        app:layout_constraintEnd_toEndOf="@+id/roomsButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/itemCheckButton" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/roomsButton"
+        app:layout_constraintStart_toEndOf="@+id/roomsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

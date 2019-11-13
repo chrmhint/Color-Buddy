@@ -22,11 +22,9 @@ import androidx.core.graphics.red
 import androidx.core.net.toUri
 import com.example.colorbuddy.R
 import com.example.colorbuddy.classes.Item
-import com.example.colorbuddy.ItemChecker
 import com.example.colorbuddy.classes.Group
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_item_checker.*
 import kotlinx.android.synthetic.main.activity_new_item.*
 import java.lang.Float.parseFloat
 import java.lang.Long.parseLong

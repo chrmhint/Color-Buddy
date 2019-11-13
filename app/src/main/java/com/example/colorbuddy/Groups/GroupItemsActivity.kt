@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.colorbuddy.ItemChecker
 import com.example.colorbuddy.R
 import com.example.colorbuddy.adapters.EXTRA_ITEM_TYPE
 import com.example.colorbuddy.adapters.ItemAdapter

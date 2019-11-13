@@ -58,8 +58,6 @@ class MainActivity : AppCompatActivity(), CursorWheelLayout.OnMenuSelectedListen
 
         })
 
-
-
         loadColors()
 
         itemButton.setOnClickListener{
@@ -73,13 +71,6 @@ class MainActivity : AppCompatActivity(), CursorWheelLayout.OnMenuSelectedListen
         signoutButton.setOnClickListener{
             signout()
         }
-        itemCheckButton.setOnClickListener {
-            val intent = Intent(this, ItemChecker::class.java)
-            startActivity(intent)
-        }
-
-
-
     }
 
     private fun signout(){
