@@ -126,7 +126,6 @@ class DeleteItemsActivity : AppCompatActivity() {
             val dref = FirebaseDatabase.getInstance().getReference("Items").child(item.itemId)
             dref.removeValue()
         }
-        finish()
     }
 
     private fun deleteRoom(){

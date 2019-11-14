@@ -122,7 +122,6 @@ class GroupItemsActivity : AppCompatActivity() {
             val intent = Intent(this,DeleteItemsActivity::class.java)
             intent.putExtra(EXTRA_GROUP_NAME,groupName)
             startActivityForResult(intent,1)
-            finish()
         }
     }
 
