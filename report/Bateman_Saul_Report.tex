@@ -644,15 +644,20 @@ saved money by not buying things that don't match what they own.
 % \fnbelowfloat command of the stfloats package.
 
 \subsection{Background}
+\noindent
 Color Theory: \\ 
 The theory behind color matching is based on the color wheel. It typically describes four schemes by which colors are matched.\\
 Complementary: These are colors that lie across from each other on the wheel.\\
 Analagous: These are colors next to each other on the wheel\\
 Triadic: These are three colors that are seperated by three other colors on the wheel. This scheme is always three primary colors, three secondary colors, or three tertiary colors.\\
 Monochromatic: These are colors that are the same base color but are a shade(darker) or tint(lighter) of that color.\\
-All of this information was translated to the unit circle to make it possible to do calculations over the pixel data obtained from the pictures. Initially 
-it was RGB (Red, Green, Blue) but this was converted to HSV (Hue, Saturation, Value) to allow for easier calculations.
+All of this information was translated to the unit circle to make it possible to do calculations over the pixel data obtained from the pictures. Initially, 
+it was RGB (Red, Green, Blue) but this was converted to HSV (Hue, Saturation, Value) to allow for easier calculations. A color is then checked to see if its monochromatic 
+with a color in the group, we check to see if its with 45 degrees of the color. This will be the basis for the rest of the schemes. When we look for another color 
+that fits the scheme we add the appropriate amount for the scheme (180 degrees for Complementary, 30 or 60 degrees for Analagous, and 120 degrees for Triadic), then 
+check if that new color is monochromatic with the one we're looking to match. 
 \subsection{Challenges}
+\noindent
 Image size: \\We cut off the outer edges of the photo (10\% off each side) and took a sampling of the pixels from what was left.\\
 Image and color quality: \\We loosened up the definition of the monochromatic color scheme to account of variances in image quality, lighting, etc.
 
@@ -773,10 +778,12 @@ Show the full structure of your program.  Make sure to keep on updating this sec
 This section will start out a little vague, but it should grow as your project evolves.  With each deliverable you hand in, give me a final summary of where your project stands.  By the end, this should be a reflective section discussing how many of your original goals you managed to attain/how many desired use cases you implemented/how many extra features you added.
 
 \subsection{Future Work}
-Where are you going next with your project?
-For early deliverables, what are your next steps?  (HINT: you will typically want to look back at your timeline and evaluate: did you meet your expected goals?  Are you ahead of schedule?  Did you decide to shift gears and implement a new feature?)
-By the end, what do you plan on doing with this project?  Will you try to sell it?  Set it on fire?  Link to it on your resume and forget it exists?
-
+\noindent
+Machine learning - this would allow the application to differentiate the item from the background in the image.\\
+Improve calculation time - This could be done in a couple ways. It could be off loaded to a server or the phone's 
+GPU could be utilized.\\
+Outfit suggestion - Outfit suggestion could be implemented for wardrobes as the clothing type is stored along with the colors. 
+This would also take the current weather into account.
 
 
 
