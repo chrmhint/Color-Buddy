@@ -475,7 +475,12 @@
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Abstracts are generally a very concise, short description of what you are writing about.  It's good to get into the habit of writing them.  Give a 1 paragraph explanation of your project, who the target is, and what you feel you have achieved so far in the project.
+Imagine you're shopping at your favorite clothing store. You find an amazing shirt, but you don't know if it goes with anything you own. If it doesn't 
+match anything, you will have wasted money on a shirt you'll never wear. What if there was a way to know without having to make any more wasteful 
+purchases? Color Buddy is an Android app developed with Kotlin and Firebase which helps users curate the perfect wardrobe, interior design scheme, and 
+more. It holds the color data for each item in the user's collection. When a user wants to ada new item to their collection, the user takes a picture of 
+the object. Color Buddy forms a palette of the object's most prominent colors and, using color theory concepts, checks to see if a new item matches 
+anything in the collection. Users are alerted in the new item matches or not, so they can make the most informed decisions.
 \end{abstract}
 
 %As the comment below states, you usually only do these when you're doing a final submission of a paper, to make it easier to find your work when searching.
@@ -639,15 +644,17 @@ saved money by not buying things that don't match what they own.
 % \fnbelowfloat command of the stfloats package.
 
 \subsection{Background}
-In this section, give a brief background to any concepts the reader may need to know to make it through your paper.   Are there any specific terms the reader needs to be familiar with?
-
-Also, consider going into your personal connection with this project -- why did you decide to do it?
-
+Color Theory: \\ 
+The theory behind color matching is based on the color wheel. It typically describes four schemes by which colors are matched.\\
+Complementary: These are colors that lie across from each other on the wheel.\\
+Analagous: These are colors next to each other on the wheel\\
+Triadic: These are three colors that are seperated by three other colors on the wheel. This scheme is always three primary colors, three secondary colors, or three tertiary colors.\\
+Monochromatic: These are colors that are the same base color but are a shade(darker) or tint(lighter) of that color.\\
+All of this information was translated to the unit circle to make it possible to do calculations over the pixel data obtained from the pictures. Initially 
+it was RGB (Red, Green, Blue) but this was converted to HSV (Hue, Saturation, Value) to allow for easier calculations.
 \subsection{Challenges}
-For your first deliverable, this should be a list of where you believe you will get stuck -- what do you see as the most difficult portion of your project?
-
-As you overcome these challenges, this section becomes more of a retrospective: don't only identify the challenge, but also briefly outline the solution!
-
+Image size: \\We cut off the outer edges of the photo (10\% off each side) and took a sampling of the pixels from what was left.\\
+Image and color quality: \\We loosened up the definition of the monochromatic color scheme to account of variances in image quality, lighting, etc.
 
 \section{Scope}
 This section is a bit tricksy.  You are going to do your best to set up ground rules:  How will you know when your project is done?
@@ -660,15 +667,15 @@ For every sub(sub)section below, make sure to mark which items are basic goals (
 
 \subsubsection{Functional}
 \begin{itemize}
-\item User needs to have a private shopping cart -- this cannot be shared between users, and needs to maintain state across subsequent visits to the site
-\item Users need to have website accounts -- this will help track recent purchases, keep shopping cart records, etc.
+\item User needs to have private groups, these will be the items the user wants to potentially match and no one else should be able to see them.
+\item Users should have the ability 
 \item You'll need more than 2 of these...
 \end{itemize}
 
 \subsubsection{Non-Functional}
 \begin{itemize}
-\item Security -- user credentials must be encrypted on disk, users should be able to reset their passwords if forgotten
-\item you'll typically have fewer non-functional than functional requirements
+\item Security -- user credentials must be verified and stored within firebase.
+\item Usability -- the application must be fairly simple so that most people could be expected to operate it without much trouble.
 \end{itemize}
 
 \subsection{Use Cases}
