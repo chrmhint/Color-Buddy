@@ -659,14 +659,12 @@ check if that new color is monochromatic with the one we're looking to match.
 \subsection{Challenges}
 \noindent
 Image size: \\We cut off the outer edges of the photo (10\% off each side) and took a sampling of the pixels from what was left.\\
-Image and color quality: \\We loosened up the definition of the monochromatic color scheme to account of variances in image quality, lighting, etc.
+Image and color quality: \\We loosened up the definition of the monochromatic color scheme to account of variances in image quality, lighting, etc.\\
+Calculation time: \\A 12 MP camera has 12 Million pixels so looking at as many pixels as possible presents a potential challenge in the matching calculations.
 
 \section{Scope}
-This section is a bit tricksy.  You are going to do your best to set up ground rules:  How will you know when your project is done?
-
-If you were doing this under contract for a company, this would be your checklist to make sure you get paid.  We will be going into this in more detail over time, but you should start planning your major goals of the project as soon as possible.
-
-For every sub(sub)section below, make sure to mark which items are basic goals (project won't be done without it) and which ones are stretch goals (it would be really cool to do...).  We will be meeting one-on-one to help identify which goals go where.
+\noindent
+The scope of this project is to develop an Android application that allows users to add items to a group and check to see if they match with one another.
 
 \subsection{Requirements}
 
@@ -684,12 +682,7 @@ For every sub(sub)section below, make sure to mark which items are basic goals (
 \end{itemize}
 
 \subsection{Use Cases}
-This subsection is arguably part of how you define your project scope (why it is in the Scope section...).  In a traditional Waterfall approach, as part of your requirements gathering phase (what does the product actually \emph{need} to do?), you will typically sit down with a user to develop use cases.
-
-You should have a table listing all use cases discussed in the document, the ID is just the order it is listed in, the name should be indicative of what should happen, the primary actor is typically most important in an application where you may have different levels of users (think admin vs normal user), complexity is a best-guess on your part as to how hard it should be.  A lower number in priority indicates that it needs to happen sooner rather than later.  A sample table, or Use Case Index can be seen in Table \ref{tab:useCaseIndex}.
-
-
-
+\noindent
 
 \begin{table}
 \centering
@@ -697,86 +690,197 @@ You should have a table listing all use cases discussed in the document, the ID 
 \hline
 Use Case ID & Use Case Name & Primary Actor & Complexity & Priority \\
 \hline \hline
-1 & Add item to cart & Shopper & Med & 1\\
+1 & Register & User & Easy & 1\\
 \hline
-2 & Checkout & Shopper & Med & 1\\
+2 & Login & User & Easy & 1\\
+\hline
+3 & Create Group & User & Easy & 1\\
+\hline
+4 & Add Items & User & Easy & 1\\
+\hline
+5 & Delete Items/Group & User & Easy & 1\\
 \hline
 
 \end{tabular}
-\caption{Sample use case table}
+\caption{Use Cases}
 \label{tab:useCaseIndex}
 \end{table}
 
 
 \begin{itemize}
 \item[Use Case Number:] 1
-\item[Use Case Name:] Add item to cart
-\item[Description:] A shopper on our site has identified an item they wish to buy.  They will click on a ``Add to Cart" button.  This will kick off a process to add one instance of the item to their cart.
+\item[Use Case Name:] Register
+\item[Description:] A user has decided they want to use Color Buddy. They will click the 'Register' button. This will allow them to register.
 \end{itemize}
 
-You will then go on to (minimally) discuss a basic flow for the process:
-
 \begin{enumerate}
-\item User navigates to page listing desired item
-\item User left-clicks on ``Add to Cart" button.
-\item User cart is updated to reflect the new item, this also updates the current total.
-\item[Termination Outcome:] The user now has a single instance of the item in their cart.
+\item User opens the app.
+\item User clicks on the 'Register' button.
+\item User enters the E-mail and password they would like to use.
+\item[Termination Outcome:] The user is now registered with the application.
 \end{enumerate}
 
-You may need to also add in any alternative flows:
-
-Alternative: Item already exists in the cart
-\begin{enumerate}
-\item User navigates to page listing desired item
-\item User left-clicks on ``Add to Cart" button.
-\item User cart is updated to reflect the new item, showing that one more instance of the existing item has been added.  This also updates the current total.
-\item[Termination Outcome:] The user now has multiple instances of the item in their cart.
-\end{enumerate}
-
-You will often also need to include pictures or diagrams.  It is quite common to see use-case diagrams in such write-ups.  To properly reference an image, you will need to use the \texttt{figure} environment and will need to reference it in your text (via the \texttt{ref} command) (see Figure \ref{cat1}).  NOTE: this is not a use case diagram, but a kitten.
-
-After fully describing a use case, it is time to move on to the next use case:
-
+see Figure \ref{register}
+\\
 \begin{itemize}
 \item[Use Case Number:] 2
-\item[Use Case Name:] Checkout
-\item[Description:] A shopper on our site has finished shopping.  They will click on a ``Checkout" button.  This will kick off a process to calculate cart total, any taxes, shipping rates, and collect payment from the shopper.
-
+\item[Use Case Name:] Login
+\item[Description:] A user has registered with Color Buddy. They will input their credentials and click the 'Login' Button. This will take them to the main App.
 \end{itemize}
 
-You will then need to continue to flesh out all use cases you have identified for your project.
+\begin{enumerate}
+\item User opens the application after registering.
+\item User enters in their registered email and password.
+\item User clicks the 'Login' button.
+\item User is then taken to the application home screen.
+\item[Termination Outcome:] The user is now logged in.
+\end{enumerate}
+
+see Figure \ref{login}
+\\
+\begin{itemize}
+\item[Use Case Number:] 3
+\item[Use Case Name:] Create Group
+\item[Description:] A user has decided that they need a group for a specific purpose. They will click the 'Groups' button, then the 'Add' button to start creating a group.
+\end{itemize}
+
+\begin{enumerate}
+\item User clicks on the 'Groups' button. They are then taken to the groups page.
+\item User then clicks the 'Add' button. They are taken to the group creation page.
+\item User then enters in a name for the group and selects the kind of group it is via the toggle switch at the bottom of the screen.
+\item User clicks the 'Add' button and is taken back to the groups page.
+\item [Termination Outcome:] The user has now added a group.
+\end{enumerate}
+
+see Figure \ref{create_groups}
+\\
+\begin{itemize}
+\item[Use Case Number:] 4
+\item[Use Case Name:] Add Item
+\item[Description:] A user has decided to add some items to a group. They will click the 'Info' button next to the group name, then 'Add'. This will allow them to add an item.
+\end{itemize}
+
+\begin{enumerate}
+\item User navigates to the desired group.
+\item User clicks the 'Add' button.
+\item User then takes a picture of the item they want to add.
+\item User enters in an item type and short description for the item.
+\item User then clicks the 'Add' button.
+\item[Termination Outcome:] The user has now added that item to the group.
+\end{enumerate}
+
+see Figure \ref{add}
+\\
+\begin{itemize}
+\item[Use Case Number:] 5
+\item[Use Case Name:] Delete Item/Group
+\item[Description:] A user has decided to delete items or a group entirely. They will click the 'Delete' button in the group. This will allow them to delete items or the group.
+\end{itemize}
+
+\begin{enumerate}
+\item User navigates to the desired group.
+\item User clicks on the 'Delete' button.
+\item User then selects the items to delete then clicks the 'Delete' button.
+\item User confirms they want to delete the items by answering yes to the popup.
+\item[Termination Outcome:] The user has now deleted those items from their group.
+\end{enumerate}
+
+Alternative: Group deletion.
+\begin{enumerate}
+  \item User navigates to the desired group.
+  \item User clicks on the 'Delete' button.
+  \item User then clicks on the 'Delete Group' button.
+  \item User confirms they want to delete the group by answering yes to the popup.
+  \item[Termination Outcome:] The user has now deleted that group.
+\end{enumerate}
+
+see Figure \ref{delete}
 
 \begin{figure}[ht!]
-\includegraphics[height=250px, width=350px]{cat1.jpg}
-\caption{First picture, this is a kitten, not a use case diagram}
-\label{cat1}
+\includegraphics[height=350px, width=175px]{login.jpg}
+\caption{Login/Landing Page}
+\label{login}
 \end{figure}
 
 \subsection{Interface Mockups}
-At first, this will largely be completely made up, as you get further along in your project, and closer to a final product, this will typically become simple screenshots of your running application.
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{register.jpg}
+\caption{Account Registration}
+\label{register}
+\end{figure}
 
-In this subsection, you will be showing what the screen should look like as the user moves through various use cases (make sure to tie the interface mockups back to the specific use cases they illustrate).
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{home.jpg}
+\caption{Home}
+\label{home}
+\end{figure}
 
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{create_group.jpg}
+\caption{Group Creation}
+\label{create_groups}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{groups.jpg}
+\caption{Groups List}
+\label{groups}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{group_items.jpg}
+\caption{The items within a group}
+\label{group_items}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{add.jpg}
+\caption{Adding an item to a group}
+\label{add}
+\end{figure}
+
+\begin{figure}[ht!]
+\includegraphics[height=350px, width=175px]{delete.jpg}
+\caption{Deleting items or the group}
+\label{delete}
+\end{figure}
 
 
 \section{Project Timeline}
-Go back to your notes and look up a typical project development life cycle for the Waterfall approach.  How will you follow this life cycle over the remainder of this semester?  This will usually involve a chart showing your proposed timeline, with specific milestones plotted out.  Make sure you have deliverable dates from the course schedule listed, with a plan to meet them (NOTE: these are generally optimistic deadlines).
+\noindent
+Phase One: September 30th 2019\\
+Get the core of the Android application up and running.\\
+Get the Firebase Realtime Database set up .\\
+Begin developing the image processing algorithms.\\
+\\
+Phase Two: October 31st 2019\\
+Polish up the Android application.\\
+Fully integrate the Database with the application.\\
+Finish the image processing algorithms and add them to the application.\\
+\\
+Phase Three: November 14th 2019\\
+Bug fixes for the image processing.\\
 
 \section{Project Structure}
-At first, this will be a little empty (it will need to be filled in by the time you turn in your final report).  This is your chance to discuss all of your design decisions (consider this the README's big brother).
-
+\noindent
+Android/Kotlin:\\
+We chose to implement this idea as an Android application as we both owned phones running Android. It was also important to us that the application was easy to work with on the go. It also allowed for easy camera integration into the application.
+Firebase Realtime Database:\\
+We chose to use the Firebase realtime database for its ease of use and excellent integration with android applications. We also wanted the data to be safe so that if the app was deleted, no data was lost.
 \subsection{UML Outline}
-Show the full structure of your program.  Make sure to keep on updating this section as your project evolves (you often start out with one plan, but end up modifying things as you move along).  As a note, while Dia fails miserably at generating pdfs (probably my fault), I have had much success with png files.  Make sure to wrap your images in a \texttt{figure} environment, and to reference with the \texttt{ref} command.  For example, see Figure \ref{cat2}.
+\noindent
+Here is the basic structure of Color Buddy.
+\ref{UML}
 
 \begin{figure}[ht!]
-\includegraphics[scale=1.5]{cat2.jpg}
-\caption{Your figures should be in the \emph{figure} environment, and have captions.  Should also be of diagrams pertaining to your project, not random internet kittens}
-\label{cat2}
+\includegraphics[height=350px, width=350px]{ColorBuddyUML.jpg}
+\caption{Basic Structure of the Application}
+\label{UML}
 \end{figure}
 
 \section{Results}
-This section will start out a little vague, but it should grow as your project evolves.  With each deliverable you hand in, give me a final summary of where your project stands.  By the end, this should be a reflective section discussing how many of your original goals you managed to attain/how many desired use cases you implemented/how many extra features you added.
-
+\noindent
+At the end of the project we had a fully functioning application that did what we had in mind.. Users could create groups, add items to them, and could determine if a new item would match a group. We were not able to implement any stretch goals into our final product.
 \subsection{Future Work}
 \noindent
 Machine learning - this would allow the application to differentiate the item from the background in the image.\\
@@ -862,13 +966,7 @@ This would also take the current weather into account.
 %Make sure to reference any resource used aside from the lab itself!
 %(you can make a separate *.bib file if preferred, this just tends to be the quick and dirty approach)
 
-\begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
 
 % biography section
 % 
